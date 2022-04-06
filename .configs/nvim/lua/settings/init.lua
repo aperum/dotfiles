@@ -1,0 +1,7 @@
+require("settings.disable-providers")
+require("settings.options")
+require("settings.autocmds")
+require("settings.color")
+require("settings.filetype")
+require("settings.keymap")
+require("settings.font")

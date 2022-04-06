@@ -1,0 +1,157 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+* {
+  /*--tab-corner-rounding: 5px;*/
+  --animation-speed: 0.4s;
+  --button-corner-rounding: 30px;
+  --urlbar-container-height: 40px !important;
+  --urlbar-min-height: 30px !important;
+  --urlbar-height: 30px !important;
+  --urlbar-toolbar-height: 38px !important;
+  --moz-hidden-unscrollable: scroll !important;
+  --toolbarbutton-border-radius: 3px !important;
+  --tabs-border-color: transparent;
+}
+
+/* autohide starts here */
+/*
+#nav-bar:not([customizing="true"]):not([inFullscreen]) {
+	min-height: 1px !important;
+	max-height: 0px !important;
+	margin-top: 1px !important;
+	margin-bottom: -1px !important;
+	transition: all 50ms linear 0s !important;
+	z-index: -5 !important;
+}
+
+#navigator-toolbox:hover:not([inFullscreen]) :-moz-any(#nav-bar),
+#navigator-toolbox:focus-within :-moz-any(#nav-bar) {
+	min-height: 32px !important;
+	max-height: 32px !important;
+	margin-top: 1px !important;
+	margin-bottom: -32px !important;
+	transition: all 50ms linear 0s !important;
+	z-index: 5 !important;
+}*/
+
+/* Needed for for FF 75 megabar */
+/*#urlbar {
+	--urlbar-toolbar-height: 32px !important;
+}*/
+
+/* autohide ends here */
+
+/* #urlbar {
+  background-color: transparent !important;
+  color: var(--lwt-toolbar-field-color, black) !important;
+} */
+
+#tabs-newtab-button {
+  /*   margin-left: 4px !important; */
+  border-radius: 100% !important;
+}
+
+.urlbarView-results {
+  /*   padding: 0 6px !important; */
+}
+
+.tabbrowser-tab::before,
+.tabbrowser-tab::after {
+  display: none !important;
+}
+
+.tab-background[selected="true"] {
+  color: #111111 !important;
+}
+
+.tabbrowser-tab {
+  text-align: center !important;
+  justify-content: center;
+  align-items: center;
+  /*   margin: 0px 0 0 0 !important; */
+  /*   padding-inline: 0 !important; */
+}
+.tabbrowser-tab[selected="true"],
+.tab-label-container[selected="true"] {
+  /*   font-size: 0.9rem; */
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+#nav-bar:not([customizing]) {
+  visibility: visible;
+  margin-top: -40px;
+  transition-delay: 1s;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  transition: visibility, ease 0.5s, margin-top, ease 0.5s, opacity, ease 0.5s,
+    rotate, ease 0.4s !important;
+}
+#tabs-newtab-button {
+  margin: 0rem 0rem -0.52rem 0rem !important;
+}
+
+#nav-bar:hover,
+#nav-bar:focus-within,
+#urlbar[focused="true"],
+#identity-box[open="true"],
+#titlebar:hover + #nav-bar:not([customizing]),
+#toolbar-menubar:not([inactive="true"]) ~ #nav-bar:not([customizing]) {
+  visibility: visible;
+
+  margin-top: 0px;
+  filter: alpha(opacity=100);
+  opacity: 100;
+  margin-bottom: -0.2px;
+}
+#PersonalToolbar {
+  margin-top: 0px;
+}
+#nav-bar .toolbarbutton-1[open="true"] {
+  visibility: visible;
+  opacity: 100;
+}
+
+:-moz-any(#content, #appcontent) browser {
+  overflow-y: scroll;
+  margin-bottom: 0px !important;
+  overflow-x: scroll;
+}
+
+.tabbrowser-tab[fadein]:not([pinned]) {
+  min-height: 30px !important;
+  max-height: 31px !important;
+}
+
+/* Self */
+
+#tabbrowser-tabs {
+  --user-tab-rounding: 4px;
+}
+@media (-moz-proton) {
+  .tab-background {
+    border-radius: var(--user-tab-rounding) !important;
+  }
+}
+
+/* Inactive tabs: Shadow style */
+
+@media (-moz-proton) {
+  .tabbrowser-tab:not([selected="true"]):not([multiselected="true"])
+    .tab-background {
+    background-color: color-mix(in srgb, currentColor 8%, transparent);
+  }
+}
+
+/* /Font Size for tab / */
+#tabbrowser-tabs .tab-text {
+  margin: 4px 4px 4px 4px;
+  font-size: 8pt !important;
+  font-weight: bold !important;
+}

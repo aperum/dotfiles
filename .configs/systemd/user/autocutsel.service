@@ -1,0 +1,12 @@
+[Unit]
+Description=Autocutsel
+
+[Service]
+Type=forking
+Restart=always
+RestartSec=10
+ExecStartPre=/usr/bin/autocutsel -fork
+ExecStart=/usr/bin/autocutsel -selection PRIMARY -fork
+
+[Install]
+WantedBy=default.target
