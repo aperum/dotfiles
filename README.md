@@ -1,5 +1,9 @@
 # Dotfiles
 
+## Screenshot
+
+![Alt text](/screenshot.png?raw=true "Screenshot")
+
 ## Applications
 
 * alacritty
@@ -12,7 +16,3 @@
 * tmux
 * wezterm
 * zsh
-
-## Screenshot
-
-![Alt text](/screenshot.png?raw=true "Screenshot")
