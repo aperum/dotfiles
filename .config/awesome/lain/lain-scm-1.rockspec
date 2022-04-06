@@ -6,12 +6,16 @@ source = {
 }
 description = {
    summary = "Layout, widgets and utilities for Awesome WM",
-   detailed = "Alternative layouts, asynchronous widgets and utility functions for Awesome WM. Non-Lua dependency: curl (for IMAP, MPD and weather widgets).",
+   detailed = [[
+        Successor of awesome-vain, this module provides alternative layouts, asynchronous widgets and utility functions for Awesome WM.
+
+        Dependencies: curl (for IMAP, MPD and weather widgets); Glib >= 2.54 (for filesystems widget).
+    ]],
    homepage = "https://github.com/lcpz/lain",
-   license = "GPL2"
+   license = "GPL-2.0"
 }
 dependencies = {
-   "lua >= 5.3",
+   "lua >= 5.1",
    "dkjson >= 2.6-1"
 }
 supported_platforms = { "linux" }
