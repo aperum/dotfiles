@@ -14,8 +14,8 @@ editor = os.getenv("EDITOR") or "gvim"
 editor_cmd = editor
 
 rofi_run = "rofi -show drun"
-rofi_ssh = "/home/aperum/bin/rofi-remmina.sh"
+rofi_ssh = home .. "/bin/rofi-remmina.sh"
 rofi_window = "rofi -show window"
-rofi_password = "/home/aperum/bin/rp.sh"
-rofi_ppassword = "/home/aperum/bin/rpp.sh"
+rofi_password = home .. "/bin/rp.sh"
+rofi_ppassword = home .. "/bin/rpp.sh"
 rofi_calc = "rofi -show calc -modi calc -no-show-match -no-sort"

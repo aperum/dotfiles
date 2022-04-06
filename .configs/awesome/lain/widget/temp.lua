@@ -32,11 +32,7 @@ local function factory(args)
                     temp_now[t] = temp_value and temp_value/1e3 or temp_fl
                 end
             end
-            if temp_now[tempfile] then
-                coretemp_now = string.format(format, temp_now[tempfile]) 
-            else
-                coretemp_now = "N/A"
-            end
+            coretemp_now = string.format(format, temp_now[tempfile]) or "N/A"
             widget = temp.widget
             settings()
         end)

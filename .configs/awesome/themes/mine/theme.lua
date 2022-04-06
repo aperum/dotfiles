@@ -111,14 +111,14 @@ theme.titlebar_maximized_button_focus_active = themes_path .. "mine/titlebar/max
 --theme.wallpaper = themes_path.."mine/background.png"
 --theme.wallpaper = themes_path.."mine/walls/starry_night-wallpaper-1920x1080.jpg"
 --theme.wallpaper = {}
---theme.wallpaper[1] = "/home/aperum/Pictures/kg2SiD.jpg"
---theme.wallpaper[2] = "/home/aperum/Pictures/GpUinf.png"
+--theme.wallpaper[1] = home .. "/Pictures/kg2SiD.jpg"
+--theme.wallpaper[2] = home .. "/Pictures/GpUinf.png"
 theme.wallpaper = function(s)
   local wallpapers = {
     themes_path .. "mine/walls/deep_blue.jpg",
-    "/home/aperum/wall.png",
-    "/home/aperum/Pictures/kg2SiD.jpg",
-    "/home/aperum/Pictures/GpUinf.png",
+    home .. "/wall.png",
+    home .. "/Pictures/kg2SiD.jpg",
+    home .. "/Pictures/GpUinf.png",
   }
 
   return wallpapers[s.index]

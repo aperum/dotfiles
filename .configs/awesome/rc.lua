@@ -1,3 +1,6 @@
+-- Get home directory
+home = os.getenv("HOME")
+
 -- Standard awesome library
 gears = require("gears")
 awful = require("awful")
