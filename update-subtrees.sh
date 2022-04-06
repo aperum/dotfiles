@@ -9,6 +9,6 @@ git subtree pull --prefix .configs/awesome/lain https://github.com/lcpz/lain mas
 git subtree pull --prefix .configs/awesome/vicious https://github.com/vicious-widgets/vicious master --squash
 git subtree pull --prefix .configs/awesome/layout-machi https://github.com/xinhaoyuan/layout-machi master --squash
 
-# git subtree pull --prefix tmux/plugins/tpm https://github.com/tmux-plugins/tpm master --squash
+git subtree pull --prefix .tmux/plugins/tpm https://github.com/tmux-plugins/tpm master --squash
 
-# git subtree pull --prefix zsh/zsh.local/zinit https://github.com/zdharma-continuum/zinit main --squash
+git subtree pull --prefix zsh/zinit https://github.com/zdharma-continuum/zinit main --squash
