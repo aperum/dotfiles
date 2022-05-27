@@ -201,8 +201,3 @@ require("cokeline").setup({
     components.right_half_circle,
   },
 })
-
-for i = 1, 9 do
-  -- map("n", ("<F%s>"):format(i), ("<Plug>(cokeline-focus-%s)"):format(i), { silent = true })
-  map("n", ("<Leader>%s"):format(i), ("<Plug>(cokeline-focus-%s)"):format(i), { silent = true })
-end

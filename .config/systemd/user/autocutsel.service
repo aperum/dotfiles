@@ -9,4 +9,4 @@ ExecStartPre=/usr/bin/autocutsel -fork
 ExecStart=/usr/bin/autocutsel -selection PRIMARY -fork
 
 [Install]
-WantedBy=default.target
+WantedBy=graphical-session.target

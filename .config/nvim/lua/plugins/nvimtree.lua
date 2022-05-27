@@ -1,5 +1,4 @@
 vim.g.nvim_tree_width = 25
-vim.g.nvim_tree_indent_markers = 1
 vim.g.nvim_tree_auto_ignore_ft = "startify"
 vim.g.nvim_tree_icons = {
   default = "",
@@ -10,8 +9,22 @@ vim.g.nvim_tree_icons = {
 
 require("nvim-tree").setup({
   disable_netrw = true,
-  tree_follow = true,
   hijack_cursor = true,
+  renderer = {
+    indent_markers = {
+      enable = true,
+      icons = {
+        corner = "└ ",
+        edge = "│ ",
+        none = "  ",
+      },
+    },
+  },
+  update_focused_file = {
+    enable = true,
+    update_cwd = false,
+    ignore_list = {},
+  },
 })
 
 vim.api.nvim_set_keymap("n", "<F2>", ":NvimTreeToggle<CR>", { noremap = false, silent = true })

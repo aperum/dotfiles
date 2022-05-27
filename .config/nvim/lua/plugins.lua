@@ -12,7 +12,9 @@ end
 vim.cmd("autocmd BufWritePost plugins.lua PackerCompile") -- Auto compile when there are changes in plugins.lua
 
 -- require('packer').init({display = {non_interactive = true}})
-require("packer").init({ display = { auto_clean = false } })
+require("packer").init({
+  compile_path = vim.fn.stdpath("data") .. "/site/pack/loader/start/packer.nvim/plugin/packer.lua",
+})
 
 return require("packer").startup(function(use)
   -- Packer can manage itself as an optional plugin
@@ -43,15 +45,12 @@ return require("packer").startup(function(use)
     end,
   })
   use({
+    "williamboman/nvim-lsp-installer",
+  })
+  use({
     "neovim/nvim-lspconfig",
     config = function()
       require("plugins.lspconfig")
-    end,
-  })
-  use({
-    "williamboman/nvim-lsp-installer",
-    config = function()
-      require("plugins.lspinstall")
     end,
   })
   use({
@@ -215,7 +214,7 @@ return require("packer").startup(function(use)
 
   -- Status Line and Bufferline
   use({
-    "famiu/feline.nvim",
+    "feline-nvim/feline.nvim",
     after = { "nvim-web-devicons", "nvim-gps", "nvim-treesitter" },
     config = function()
       require("plugins.feline")
@@ -264,6 +263,9 @@ return require("packer").startup(function(use)
     config = function()
       require("plugins.neoclip")
     end,
+  })
+  use({
+    "someone-stole-my-name/yaml-companion.nvim",
   })
 
   -- Explorer
@@ -343,21 +345,27 @@ return require("packer").startup(function(use)
       require("plugins.neogit")
     end,
   })
+  use({
+    "akinsho/git-conflict.nvim",
+    config = function()
+      require("plugins.git-conflict")
+    end,
+  })
 
   -- Session
-  use({
-    "rmagatti/auto-session",
-    config = function()
-      require("plugins.auto-session")
-    end,
-  })
-  use({
-    "rmagatti/session-lens",
-    after = { "telescope.nvim", "auto-session" },
-    config = function()
-      require("plugins.session-lens")
-    end,
-  })
+  -- use({
+  --   "rmagatti/auto-session",
+  --   config = function()
+  --     require("plugins.auto-session")
+  --   end,
+  -- })
+  -- use({
+  --   "rmagatti/session-lens",
+  --   after = { "telescope.nvim", "auto-session" },
+  --   config = function()
+  --     require("plugins.session-lens")
+  --   end,
+  -- })
 
   -- Colorschema
   -- use({
@@ -404,29 +412,19 @@ return require("packer").startup(function(use)
   use({
     "simrat39/symbols-outline.nvim",
   })
-  -- This requires neovim 0.7
-  if vim.fn.has("nvim-0.7") == 1 then
-    use({
-      "mrjones2014/legendary.nvim",
-      config = function()
-        require("plugins.legendary")
-      end,
-    })
-    use({
-      "folke/which-key.nvim",
-      after = "legendary.nvim",
-      config = function()
-        require("plugins.which-key")
-      end,
-    })
-  else
-    use({
-      "folke/which-key.nvim",
-      config = function()
-        require("plugins.which-key")
-      end,
-    })
-  end
+  use({
+    "mrjones2014/legendary.nvim",
+    config = function()
+      require("plugins.legendary")
+    end,
+  })
+  use({
+    "folke/which-key.nvim",
+    after = "legendary.nvim",
+    config = function()
+      require("plugins.which-key")
+    end,
+  })
   -- use({
   --   "beauwilliams/focus.nvim",
   --   config = function()

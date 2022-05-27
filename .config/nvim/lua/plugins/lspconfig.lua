@@ -1,3 +1,15 @@
+require("nvim-lsp-installer").setup({
+  automatic_installation = true,
+  ui = {
+    icons = {
+      server_installed = "✓",
+      server_pending = "➜",
+      server_uninstalled = "✗",
+    },
+  },
+})
+local lspconfig = require("lspconfig")
+
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 capabilities.textDocument.completion.completionItem.documentationFormat = { "markdown", "plaintext" }
@@ -8,6 +20,7 @@ local on_attach = function(client, bufnr)
   local function buf_set_keymap(...)
     vim.api.nvim_buf_set_keymap(bufnr, ...)
   end
+
   local function buf_set_option(...)
     vim.api.nvim_buf_set_option(bufnr, ...)
   end
@@ -58,12 +71,12 @@ local function make_config(server_name)
   return c
 end
 
-local lsp_installer = require("nvim-lsp-installer")
-lsp_installer.on_server_ready(function(server)
-  local config = make_config(server.name)
-  server:setup(config)
-  vim.cmd([[ do User LspAttachBuffers ]])
-end)
+-- Enable the following language servers
+local wanted_servers = require("plugins.lspinstall.wanted").setup(HOST)
+for _, lsp in ipairs(wanted_servers) do
+  local config = make_config(lsp)
+  lspconfig[lsp].setup(config)
+end
 
 local signs = {
   Error = " ",

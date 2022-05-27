@@ -18,6 +18,8 @@ return {
 
   warn_about_missing_glyphs = false,
 
+  selection_word_boundary = " \t\n{}[]()\"'`",
+
   -- Font Stuff
   font = font_with_fallback("Hack Nerd Font Mono"),
   font_rules = {
