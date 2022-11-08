@@ -8,8 +8,12 @@ beautiful.layout_machi = machi.get_icon()
 
 -- This is used later as the default terminal and editor to run.
 --terminal = "urxvt"
--- terminal = "alacritty"
-terminal = "wezterm"
+if virt == "oracle" then
+  terminal = "alacritty"
+else
+  terminal = "wezterm"
+end
+
 editor = os.getenv("EDITOR") or "gvim"
 editor_cmd = editor
 

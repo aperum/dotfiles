@@ -15,6 +15,7 @@ local wanted_matrix = {
   html = { "hastur", "azathoth", "guardian" },
   jsonls = { "hastur", "azathoth", "guardian" },
   lemminx = { "hastur", "azathoth", "guardian" },
+  marksman = { "hastur", "azathoth", "guardian" },
   sumneko_lua = { "hastur", "azathoth", "guardian" },
   pylsp = { "hastur", "azathoth", "guardian" },
   solargraph = { "hastur", "azathoth", "guardian" },

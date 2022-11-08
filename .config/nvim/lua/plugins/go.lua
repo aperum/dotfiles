@@ -12,5 +12,5 @@ require("go").setup({
 })
 
 vim.cmd([[
-  autocmd InsertLeave <buffer> lua vim.lsp.buf.formatting_sync(nil,500)
+  autocmd InsertLeave <buffer> lua vim.lsp.buf.format(nil,500)
 ]])

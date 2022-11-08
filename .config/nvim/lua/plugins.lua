@@ -44,8 +44,14 @@ return require("packer").startup(function(use)
       require("plugins.aerial")
     end,
   })
+  -- use({
+  --   "williamboman/nvim-lsp-installer",
+  -- })
   use({
-    "williamboman/nvim-lsp-installer",
+    "williamboman/mason.nvim",
+  })
+  use({
+    "williamboman/mason-lspconfig.nvim",
   })
   use({
     "neovim/nvim-lspconfig",
@@ -169,6 +175,12 @@ return require("packer").startup(function(use)
       require("plugins.nvim-gps")
     end,
   })
+  use({
+    "nvim-treesitter/nvim-treesitter-context",
+    config = function()
+      require("plugins.nvim-treesitter-context")
+    end,
+  })
 
   -- Syntax
   use({
@@ -191,26 +203,26 @@ return require("packer").startup(function(use)
   })
 
   -- DAP
-  use({
-    "mfussenegger/nvim-dap",
-    config = function()
-      require("plugins.nvim-dap")
-    end,
-  })
-  use({
-    "rcarriga/nvim-dap-ui",
-    after = { "nvim-dap" },
-    config = function()
-      require("plugins.nvim-dap-ui")
-    end,
-  })
-  use({
-    "theHamsta/nvim-dap-virtual-text",
-    after = { "nvim-dap" },
-    config = function()
-      require("plugins.nvim-dap-virtual-text")
-    end,
-  })
+  -- use({
+  --   "mfussenegger/nvim-dap",
+  --   config = function()
+  --     require("plugins.nvim-dap")
+  --   end,
+  -- })
+  -- use({
+  --   "rcarriga/nvim-dap-ui",
+  --   after = { "nvim-dap" },
+  --   config = function()
+  --     require("plugins.nvim-dap-ui")
+  --   end,
+  -- })
+  -- use({
+  --   "theHamsta/nvim-dap-virtual-text",
+  --   after = { "nvim-dap" },
+  --   config = function()
+  --     require("plugins.nvim-dap-virtual-text")
+  --   end,
+  -- })
 
   -- Status Line and Bufferline
   use({
@@ -273,7 +285,7 @@ return require("packer").startup(function(use)
     "kyazdani42/nvim-tree.lua",
     after = "nvim-web-devicons",
     config = function()
-      require("plugins.nvimtree")
+      require("plugins.nvim-tree")
     end,
   })
   -- use({
@@ -313,13 +325,13 @@ return require("packer").startup(function(use)
       require("plugins.kommentary")
     end,
   })
-  use({
-    "folke/todo-comments.nvim",
-    after = "plenary.nvim",
-    config = function()
-      require("plugins.todo-comments")
-    end,
-  })
+  -- use({
+  --   "folke/todo-comments.nvim",
+  --   after = "plenary.nvim",
+  --   config = function()
+  --     require("plugins.todo-comments")
+  --   end,
+  -- })
 
   -- Git
   use({
@@ -447,4 +459,25 @@ return require("packer").startup(function(use)
   --     require("plugins.regexplainer")
   --   end,
   -- })
+  use({
+    "kylechui/nvim-surround",
+    config = function()
+      require("plugins.nvim-surround")
+    end,
+  })
+  use({
+    "jinh0/eyeliner.nvim",
+    config = function()
+      require("plugins.eyeliner")
+    end,
+  })
+  -- use({
+  --   "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+  --   config = function()
+  --     require("plugins.lsp_lines")
+  --   end,
+  -- })
+  use({
+    "gpanders/editorconfig.nvim",
+  })
 end)

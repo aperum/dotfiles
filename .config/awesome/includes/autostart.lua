@@ -1,11 +1,10 @@
--- check if we are virtualized
-local virt = os.execute("systemd-detect-virt --quiet")
-
 -- invoke our screenlocker on start
 awful.spawn.with_shell(awful.util.getdir("config") .. "/lock.sh")
 
 -- spawn daemons for virtualized envs
-if virt then
+if virt == "oracle" then
+  awful.spawn.with_shell("VBoxClient-all")
+elseif virt == "vmware" then
   awful.spawn.with_shell("vmware-user")
 end
 

@@ -5,7 +5,7 @@ Awesome-Freedesktop
 Freedesktop.org menu and desktop icons support for Awesome WM 4.x
 -------------------------------------------------------------------
 
-:Original author: Antonio Terceiro
+:First author: Antonio Terceiro
 :Maintainer: Luca CPZ
 :Version: git
 :License: GNU-GPL2_
@@ -14,30 +14,29 @@ Freedesktop.org menu and desktop icons support for Awesome WM 4.x
 Description
 -----------
 
-This is a port of awesome-freedesktop_ to Awesome_ 4.x.
+A port of awesome-freedesktop_ to Awesome_ 4.x.
 
 See branches_ for previous versions.
 
-Since the introduction of Menubar_ as core library for providing Freedesktop.org menu functionalities in Awesome,
-we can now avoid all the dirty work by just exploiting ``menubar.utils`` functions.
+Since the introduction of Menubar_ as a core library to provide Freedesktop.org
+functionalities in Awesome, we can now avoid the dirty work by simply exploiting
+``menubar.utils``.
 
-At the initial status of this port, the menu is pretty much complete, while the desktop icons are very basic,
-so the long term objective will be to complete functionalities on this part too.
+At the moment, the menu is complete, while the desktop icons are rather simple. Our goal
+is to add the following features:
 
-More specifically, the todo list is:
-
-- A better way to handle desktop icons path
-- Ability to drag and line up icons
+- A better way to handle desktop icons path.
+- Ability to drag and line up icons.
 - Event-based signals, in particular:
-    - Updating trash icon according to its status
-    - Dynamic update (no need to restart Awesome to see changes on desktop)
+    - Updating trash icon according to its status.
+    - Dynamic update (no need to restart Awesome to see changes on the desktop).
 
 Screenshot
 ----------
 
 .. image:: screenshot.png
     :align: center
-    :alt: Showcase of Freedesktop support in Awesome, using Adwaita icons
+    :alt: Showcase of Freedesktop.org support in Awesome, using Adwaita icons
 
 Installation and usage
 ----------------------

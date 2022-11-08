@@ -8,7 +8,7 @@ end
 
 vim.cmd("au TextYankPost * silent! lua vim.highlight.on_yank()")
 
-vim.cmd([[ autocmd BufWritePre (InsertLeave?) <buffer> lua vim.lsp.buf.formatting_sync(nil,500) ]], false)
+vim.cmd([[ autocmd BufWritePre (InsertLeave?) <buffer> lua vim.lsp.buf.format(nil,500) ]], false)
 
 -- nvim-lsp-installer border window
 local lspInstallerGrp = vim.api.nvim_create_augroup("LSPInstaller", { clear = true })

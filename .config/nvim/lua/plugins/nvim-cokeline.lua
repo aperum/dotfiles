@@ -8,6 +8,7 @@ local str_rep = string.rep
 local comments_fg = rq_get_hex("Comment", "fg")
 local errors_fg = rq_get_hex("DiagnosticError", "fg")
 local warnings_fg = rq_get_hex("DiagnosticWarn", "fg")
+local focused_fg = colors.magenta
 
 local min_buffer_width = 23
 
@@ -80,7 +81,10 @@ local components = {
       return buffer.filename
     end,
     fg = function(buffer)
-      return (buffer.diagnostics.errors ~= 0 and errors_fg) or (buffer.diagnostics.warnings ~= 0 and warnings_fg) or nil
+      return (buffer.diagnostics.errors ~= 0 and errors_fg)
+        or (buffer.diagnostics.warnings ~= 0 and warnings_fg)
+        or (buffer.is_focused and focused_fg)
+        or comments_fg
     end,
     style = function(buffer)
       return ((buffer.is_focused and buffer.diagnostics.errors ~= 0) and "bold,underline")

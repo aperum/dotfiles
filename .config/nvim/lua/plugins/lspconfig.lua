@@ -1,20 +1,21 @@
-require("nvim-lsp-installer").setup({
-  automatic_installation = true,
+require("mason").setup({
   ui = {
     icons = {
-      server_installed = "✓",
-      server_pending = "➜",
-      server_uninstalled = "✗",
+      package_installed = "✓",
+      package_pending = "➜",
+      package_uninstalled = "✗",
     },
+    -- check_outdated_packages_on_open = false,
   },
 })
+require("mason-lspconfig").setup({
+  automatic_installation = true,
+})
+
 local lspconfig = require("lspconfig")
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 capabilities.textDocument.completion.completionItem.documentationFormat = { "markdown", "plaintext" }
-
-local aerial = require("aerial")
 
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...)
@@ -27,17 +28,15 @@ local on_attach = function(client, bufnr)
 
   buf_set_option("omnifunc", "v:lua.vim.lsp.omnifunc")
 
-  aerial.on_attach(client)
-
   -- Set some keybinds conditional on server capabilities
-  if client.resolved_capabilities.document_formatting then
+  if client.server_capabilities.documentFormattingProvider then
     buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", { noremap = true, silent = true })
-  elseif client.resolved_capabilities.document_range_formatting then
+  elseif client.server_capabilities.documentRangeFormattingProvider then
     buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.range_formatting()<CR>", { noremap = true, silent = true })
   end
 
   -- Set autocommands conditional on server_capabilities
-  if client.resolved_capabilities.document_highlight then
+  if client.server_capabilities.documentHighlightProvider then
     vim.cmd(
       [[
     augroup lsp_document_highlight
@@ -56,7 +55,7 @@ local function make_config(server_name)
   local c = {}
   c.on_attach = on_attach
   c.capabilities = vim.lsp.protocol.make_client_capabilities()
-  c.capabilities = require("cmp_nvim_lsp").update_capabilities(c.capabilities)
+  c.capabilities = require("cmp_nvim_lsp").default_capabilities()
   c.capabilities.textDocument.completion.completionItem.documentationFormat = { "markdown", "plaintext" }
 
   -- Merge user-defined lsp settings.
@@ -90,6 +89,7 @@ for type, icon in pairs(signs) do
 end
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+  -- lsp_lines handles virtual_text, disable if lsp_lines is active
   virtual_text = true,
   signs = true,
   underline = true,

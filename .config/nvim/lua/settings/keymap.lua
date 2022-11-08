@@ -96,8 +96,7 @@ map(
 map("n", "<leader>?", [[<cmd>lua require('telescope.builtin').oldfiles()<CR>]], { noremap = true, silent = true })
 -- Cokeline
 for i = 1, 9 do
-  -- map('n', ('<F%s>'):format(i), ('<Plug>(cokeline-focus-%s)'):format(i), { silent = true })
-  map("n", ("<A-%s>"):format(i), ("<Plug>(cokeline-switch-%s)"):format(i), { silent = true })
+  map("n", ("<A-%s>"):format(i), ("<Plug>(cokeline-focus-%s)"):format(i), { silent = true })
 end
 -- Kommentary
 map("n", "<leader>cc", "<Plug>kommentary_line_default", {})

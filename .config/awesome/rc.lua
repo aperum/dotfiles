@@ -22,6 +22,12 @@ local socket = require("socket")
 local hostname = socket.dns.gethostname()
 local host = hostname:match("([%w]+).?")
 
+-- check if we are virtualized
+local virthandle = io.popen("systemd-detect-virt")
+virt = virthandle:read("*a")
+virthandle:close()
+virt = string.gsub(virt, "%s+", "")
+
 require("includes/errorhandling")
 require("includes/defines")
 require("includes/functions")

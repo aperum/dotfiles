@@ -48,7 +48,7 @@ autoload zmv
 #export LC_ALL=
 #export LC_MESSAGES=en_US.UTF-8
 #export LC_COLLATE=C   # No UTF8 collate in FBSD <11
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+# export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 export RIPGREP_CONFIG_PATH="${HOME}/.config/ripgrep/config"
 
 if [ -f /usr/local/bin/nvim ]; then
@@ -110,9 +110,6 @@ alias ll="ls -al"
 alias pacrm="pacman -Rns"
 alias pacadd="pacman -S"
 alias pacfind="pacman -Ss"
-alias yayrm="yay -Rns"
-alias yayadd="yay -S"
-alias yayfind="yay -Ss"
 
 # ---[ Path settings ]-------------------------------------------------
 
@@ -131,7 +128,14 @@ export ZINIT[HOME_DIR]=${CUSTOM_PATH}/zinit
 if [[ -d "/shareddata/zshrepos" ]]; then
     export ZINIT[PLUGINS_DIR]=/shareddata/zshrepos
 fi
-source $ZINIT[BIN_DIR]/zinit.zsh
+
+# Download zinit plugin manager if missing.
+if [[ ! -f ${ZINIT[BIN_DIR]}/zinit.zsh ]]; then
+  git clone https://github.com/zdharma-continuum/zpcompinit ~/.zsh/zinit
+fi
+
+# Load zinit and plugins
+source ${ZINIT[BIN_DIR]}/zinit.zsh
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 
@@ -154,6 +158,8 @@ zinit light zdharma-continuum/fast-syntax-highlighting
 
 zinit ice wait atload"_zsh_autosuggest_start" lucid
 zinit light zsh-users/zsh-autosuggestions
+
+# zinit light marlonrichert/zsh-autocomplete
 
 # ---[ Local configs ]-------------------------------------------------
 # Source local host config
@@ -277,7 +283,7 @@ bindkey "^[[1;5D" backward-word
 # Plugin: enhancd
 export ENHANCD_DISABLE_DOT=1
 export ENHANCD_DISABLE_HYPHEN=1
-#export ENHANCD_DISABLE_HOME=1
+export ENHANCD_DISABLE_HOME=1
 #export ENHANCD_FILTER="sk"
 
 # Workaround for cd listing also files with enhancd

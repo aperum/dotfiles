@@ -45,8 +45,8 @@ cmp.setup({
     { name = "luasnip" },
     { name = "buffer" },
     { name = "path" },
-    { name = "spell" },
-    { name = "cmdline" },
+    -- { name = "spell" },
+    -- { name = "cmdline" },
   },
   formatting = {
     format = lspkind.cmp_format({}),
