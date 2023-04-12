@@ -284,6 +284,8 @@ bindkey "^[[1;5D" backward-word
 export ENHANCD_DISABLE_DOT=1
 export ENHANCD_DISABLE_HYPHEN=1
 export ENHANCD_DISABLE_HOME=1
+export ENHANCD_ENABLE_DOUBLE_DOT=false
+export ENHANCD_ENABLE_HOME=false
 #export ENHANCD_FILTER="sk"
 
 # Workaround for cd listing also files with enhancd

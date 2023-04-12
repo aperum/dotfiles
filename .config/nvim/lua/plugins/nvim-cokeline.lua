@@ -1,13 +1,12 @@
 local rq_get_hex = require("cokeline/utils").get_hex
 local colors = require("tokyonight.colors").setup({})
 local rq_mappings = require("cokeline/mappings")
-local map = vim.api.nvim_set_keymap
 
 local str_rep = string.rep
 
-local comments_fg = rq_get_hex("Comment", "fg")
-local errors_fg = rq_get_hex("DiagnosticError", "fg")
-local warnings_fg = rq_get_hex("DiagnosticWarn", "fg")
+local comments_fg = rq_get_hex("Comment", "colors.fg")
+local errors_fg = rq_get_hex("DiagnosticError", "colors.fg")
+local warnings_fg = rq_get_hex("DiagnosticWarn", "colors.fg")
 local focused_fg = colors.magenta
 
 local min_buffer_width = 23
@@ -15,7 +14,7 @@ local min_buffer_width = 23
 local components = {
   separator = {
     text = " ",
-    bg = rq_get_hex("Normal", "bg"),
+    bg = colors.none,
     truncation = { priority = 1 },
   },
 
@@ -26,27 +25,27 @@ local components = {
 
   left_half_circle = {
     text = "",
-    fg = rq_get_hex("ColorColumn", "bg"),
-    bg = rq_get_hex("Normal", "bg"),
+    fg = colors.bg,
+    bg = colors.none,
     truncation = { priority = 1 },
   },
 
   right_half_circle = {
     text = "",
-    fg = rq_get_hex("ColorColumn", "bg"),
-    bg = rq_get_hex("Normal", "bg"),
+    fg = colors.bg,
+    bg = colors.none,
     truncation = { priority = 1 },
   },
 
   devicon_or_pick_letter = {
     text = function(buffer)
       return (rq_mappings.is_picking_focus() or rq_mappings.is_picking_close()) and buffer.pick_letter .. " "
-        or buffer.devicon.icon
+          or buffer.devicon.icon
     end,
     fg = function(buffer)
       return (rq_mappings.is_picking_focus() and colors.yellow)
-        or (rq_mappings.is_picking_close() and colors.red)
-        or buffer.devicon.color
+          or (rq_mappings.is_picking_close() and colors.red)
+          or buffer.devicon.color
     end,
     style = function(_)
       return (rq_mappings.is_picking_focus() or rq_mappings.is_picking_close()) and "italic,bold" or nil
@@ -82,15 +81,15 @@ local components = {
     end,
     fg = function(buffer)
       return (buffer.diagnostics.errors ~= 0 and errors_fg)
-        or (buffer.diagnostics.warnings ~= 0 and warnings_fg)
-        or (buffer.is_focused and focused_fg)
-        or comments_fg
+          or (buffer.diagnostics.warnings ~= 0 and warnings_fg)
+          or (buffer.is_focused and focused_fg)
+          or comments_fg
     end,
     style = function(buffer)
       return ((buffer.is_focused and buffer.diagnostics.errors ~= 0) and "bold,underline")
-        or (buffer.is_focused and "bold")
-        or (buffer.diagnostics.errors ~= 0 and "underline")
-        or nil
+          or (buffer.is_focused and "bold")
+          or (buffer.diagnostics.errors ~= 0 and "underline")
+          or nil
     end,
     truncation = {
       priority = 2,
@@ -101,8 +100,8 @@ local components = {
   diagnostics = {
     text = function(buffer)
       return (buffer.diagnostics.errors ~= 0 and "  " .. buffer.diagnostics.errors)
-        or (buffer.diagnostics.warnings ~= 0 and "  " .. buffer.diagnostics.warnings)
-        or ""
+          or (buffer.diagnostics.warnings ~= 0 and "  " .. buffer.diagnostics.warnings)
+          or ""
     end,
     fg = function(buffer)
       return (buffer.diagnostics.errors ~= 0 and errors_fg) or (buffer.diagnostics.warnings ~= 0 and warnings_fg) or nil
@@ -126,10 +125,10 @@ local get_remaining_space = function(buffer)
   local used_space = 0
   for _, component in pairs(components) do
     used_space = used_space
-      + vim.fn.strwidth(
-        (type(component.text) == "string" and component.text)
+        + vim.fn.strwidth(
+          (type(component.text) == "string" and component.text)
           or (type(component.text) == "function" and component.text(buffer))
-      )
+        )
   end
   return math.max(0, min_buffer_width - used_space)
 end
@@ -179,15 +178,15 @@ require("cokeline").setup({
       {
         text = "  NvimTree",
         fg = colors.yellow,
-        bg = rq_get_hex("NvimTreeNormal", "bg"),
+        bg = colors.bg,
         style = "bold",
       },
     },
   },
 
   default_hl = {
-    fg = rq_get_hex("Normal", "fg"),
-    bg = rq_get_hex("ColorColumn", "bg"),
+    fg = colors.fg,
+    bg = colors.bg
   },
 
   components = {
