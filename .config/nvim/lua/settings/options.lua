@@ -1,15 +1,15 @@
 -- Global
 vim.opt.modeline = false
--- vim.opt.fillchars = { vert = "│" }
--- vim.opt.fillchars = {
---   horiz = "━",
---   horizup = "┻",
---   horizdown = "┳",
---   vert = "┃",
---   vertleft = "┫",
---   vertright = "┣",
---   verthoriz = "╋",
--- }
+vim.opt.fillchars = { vert = "▍" }
+vim.opt.fillchars = {
+  horiz = "━",
+  horizup = "┻",
+  horizdown = "┳",
+  vert = "┃",
+  vertleft = "┫",
+  vertright = "┣",
+  verthoriz = "╋",
+}
 vim.cmd([[highlight VertSplit ctermfg=white ctermbg=black guifg=white guibg=black]])
 vim.opt.showtabline = 2
 vim.opt.scrolloff = 5
@@ -63,3 +63,5 @@ vim.opt.relativenumber = true
 vim.opt.foldenable = false
 vim.opt.cursorline = true
 vim.opt.laststatus = 3
+-- Color
+vim.opt.termguicolors = true

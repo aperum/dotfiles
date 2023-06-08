@@ -12,8 +12,8 @@ local themes_path = gfs.get_configuration_dir() .. "themes/"
 theme = {}
 
 theme.font = "Work Sans 11"
--- theme.taglist_font = "Roboto Mono Medium 15"
-theme.taglist_font = "Work Sans Medium 15"
+theme.taglist_font = "RobotoMono Nerd Font Mono Md 16"
+-- theme.taglist_font = "Work Sans Medium 15"
 
 theme.bg_normal = "#1a1b26"
 theme.bg_focus = "#545c7e"

@@ -1,7 +1,3 @@
-local lain = require("lain")
-
-local markup = lain.util.markup
-
 -- {{{ Helper functions
 local function client_menu_toggle_fn()
   local instance = nil
@@ -18,22 +14,25 @@ end
 -- }}}
 
 -- Separators
-local first = wibox.widget.textbox(markup.font("Tamzen 3", " "))
-local spr = wibox.widget.textbox(" ")
-local small_spr = wibox.widget.textbox(markup.font("Tamzen 4", " "))
-local bar_spr = wibox.widget.textbox(
-  markup.font("Tamzen 3", " ") .. markup.fontfg(theme.font, "#333333", "|") .. markup.font("Tamzen 5", " ")
-)
+local half_spr = wibox.widget.textbox(" ")
+local task_spr = wibox.widget.textbox("               ")
+
+-- Systray
+local systray = wibox.container.margin(wibox.widget.systray(), 3, 3, 3, 3)
+
+local function custom_shape(cr, width, height)
+  gears.shape.rounded_rect(cr, width, height, RADIUS)
+end
 
 -- {{{ Wibar
 -- Create a textclock widget
-mytextclock = wibox.widget.textclock()
+local mytextclock = wibox.widget.textclock()
 
 -- Keyboard map indicator and switcher
 -- mykeyboardlayout = awful.widget.keyboardlayout()
 
 -- Create a wibox for each screen and add it
-local taglist_buttons = gears.table.join(
+awful.util.taglist_buttons = awful.util.table.join(
   awful.button({}, 1, function(t)
     t:view_only()
   end),
@@ -48,10 +47,10 @@ local taglist_buttons = gears.table.join(
       client.focus:toggle_tag(t)
     end
   end),
-  awful.button({}, 4, function(t)
+  awful.button({}, 5, function(t)
     awful.tag.viewnext(t.screen)
   end),
-  awful.button({}, 5, function(t)
+  awful.button({}, 4, function(t)
     awful.tag.viewprev(t.screen)
   end)
 )
@@ -82,59 +81,6 @@ local tasklist_buttons = gears.table.join(
   end)
 )
 
--- wifi
-wifiwidget = wibox.widget.textbox()
-vicious.register(
-  wifiwidget,
-  vicious.widgets.wifi,
-  'Connected to <span color="#7F9F7F">${ssid}</span> at <span color="#7F9F7F">${linp}%</span> | ',
-  2,
-  "wlp2s0"
-)
-
--- Possible network devices
-eths = { "enp0s31f6", "wlp2s0" }
-netwidget = wibox.widget.textbox()
-vicious.register(netwidget, vicious.widgets.net, function(widget, args)
-  t = ""
-  for i = 1, #eths do
-    e = eths[i]
-    if args["{" .. e .. " carrier}"] == 1 then
-      if e == "wlp2s0" then
-        t = t
-          .. " "
-          .. 'Wifi: <span color="#CC9933"> down: '
-          .. args["{" .. e .. " down_kb}"]
-          .. ' kbps</span>  <span color="#7F9F7F">up: '
-          .. args["{" .. e .. " up_kb}"]
-          .. " kbps </span>"
-          .. "[ "
-          .. args["{" .. e .. " rx_gb}"]
-          .. " GB // "
-          .. args["{" .. e .. " tx_gb}"]
-          .. " GB ] "
-      else
-        t = t
-          .. "| "
-          .. 'Eth0: <span color="#CC9933"> down: '
-          .. args["{" .. e .. " down_kb}"]
-          .. ' kbps</span>  <span color="#7F9F7F">up: '
-          .. args["{" .. e .. " up_kb}"]
-          .. " kbps </span>"
-          .. "[ "
-          .. args["{" .. e .. " rx_gb}"]
-          .. " GB // "
-          .. args["{" .. e .. " tx_gb}"]
-          .. " GB ] "
-      end
-    end
-  end
-  if string.len(t) > 0 then -- remove leading '|'
-    return string.sub(t, 1, -1)
-  end
-  return "No network detected "
-end, 1)
-
 local function set_wallpaper(s)
   -- Wallpaper
   if beautiful.wallpaper then
@@ -143,21 +89,57 @@ local function set_wallpaper(s)
     if type(wallpaper) == "function" then
       wallpaper = wallpaper(s)
     end
-    for s = 1, screen.count() do
-      gears.wallpaper.maximized(wallpaper, s, true)
-    end
+    gears.wallpaper.maximized(wallpaper, s, true)
   end
 end
+
+--local volumearc_widget = require("awesome-wm-widgets.volumearc-widget.volumearc")
+local volume_widget = require("awesome-wm-widgets.volume-widget.volume")
+local todo_widget = require("awesome-wm-widgets.todo-widget.todo")
 
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
 
+local lo = awful.layout.layouts
+local my_tags = {
+  tags = {
+    {
+      --names = { "3as", "Misc", "Shell", "Hastur", "WWW", "IM", "Root", "Mail" },
+      names = { "", "󰖷", "󰅬", "", "", "󰍩", "󰅬", "" },
+      layout = { lo[3], lo[3], lo[3], lo[3], lo[3], lo[3], lo[3], lo[3], lo[3] },
+      icons = {
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+      },
+    },
+    {
+      names = { "Calendar", "Music" },
+      layout = { lo[3], lo[3] },
+      icons = {
+        "",
+        "",
+      },
+    },
+  },
+}
 awful.screen.connect_for_each_screen(function(s)
   -- Wallpaper
   set_wallpaper(s)
 
-  -- Each screen has its own tag table.
-  awful.tag({ " Work ", " Misc ", " Shell ", " Srv ", " WWW ", " IM ", " Root ", " Mail " }, s, awful.layout.layouts[3])
+  awful.tag(my_tags.tags[s.index].names, s, my_tags.tags[s.index].layout)
+  for i, t in ipairs(s.tags) do
+    local icon = my_tags.tags[s.index].icons[i]
+    if icon ~= "" then
+      t.icon = icon
+      t.icon_only = 1
+    end
+  end
 
   -- Create a promptbox for each screen
   s.mypromptbox = awful.widget.prompt()
@@ -178,51 +160,227 @@ awful.screen.connect_for_each_screen(function(s)
       awful.layout.inc(-1)
     end)
   ))
+
   -- Create a taglist widget
-  s.mytaglist = awful.widget.taglist(s, awful.widget.taglist.filter.all, taglist_buttons)
+  --
+  s.mytaglist = awful.widget.taglist({
+    screen = s,
+    filter = awful.widget.taglist.filter.all,
+    style = {
+      shape = gears.shape.rounded_rect,
+    },
+    layout = {
+      spacing = 0,
+      spacing_widget = {
+        color = theme.fg_normal,
+        shape = gears.shape.rounded_rect,
+      },
+      layout = wibox.layout.fixed.horizontal,
+    },
+    widget_template = {
+      {
+        {
+          {
+            shape = "",
+            widget = wibox.container.background,
+          },
+          {
+            {
+              id = "icon_role",
+              widget = wibox.widget.imagebox,
+            },
+            margins = 0,
+            widget = wibox.container.margin,
+          },
+          {
+            id = "text_role",
+            widget = wibox.widget.textbox,
+          },
+          layout = wibox.layout.align.horizontal,
+        },
+        left = 8,
+        right = 8,
+        widget = wibox.container.margin,
+      },
+      id = "background_role",
+      widget = wibox.container.background,
+    },
+    buttons = awful.util.taglist_buttons,
+  })
 
   -- Create a tasklist widget
-  --s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons)
-  s.mytasklist = awful.widget.tasklist(s)
+  -- s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.minimizedcurrenttags, tasklist_buttons)
+  -- s.mytasklist.visible = true
+
+  s.mytasklist = awful.widget.tasklist({
+    screen = s,
+    filter = awful.widget.tasklist.filter.minimizedcurrenttags,
+    buttons = tasklist_buttons,
+    style = {
+      shape_border_width = 1,
+      shape_border_color = theme.bg_light,
+      shape = gears.shape.rounded_bar,
+    },
+    layout = {
+      spacing = 10,
+      spacing_widget = {
+        {
+          forced_width = 5,
+          shape = gears.shape.circle,
+          widget = wibox.widget.separator,
+        },
+        valign = "center",
+        halign = "center",
+        widget = wibox.container.place,
+      },
+      layout = wibox.layout.flex.horizontal,
+    },
+  })
 
   -- Create the wibox
-  s.mywibox = awful.wibar({ position = "bottom", screen = s, height = 18 })
-  --s.mywibox.bg = gears.color.create_pattern({
-  --    type = "linear",
-  --    from = { 0, 0 },
-  --    to   = { 0, s.mywibox.height },
-  --    stops = { { 0, "#000000" }, { 1, "#000077" } }
-  --})
+  local box_width = s.geometry.width * 0.97
+  local box_height = 24
+
+  s.mywibox = wibox({
+    screen = s,
+    height = box_height,
+    width = box_width,
+    x = (s.geometry.width - box_width) / 2,
+    y = 4,
+    bg = theme.bg_light,
+    shape = custom_shape,
+    -- border_width = 3,
+    -- border_color = theme.border_wibar,
+    visible = true,
+  })
+  s.mywibox:struts({ top = box_height + 3 })
 
   -- Add widgets to the wibox
   s.mywibox:setup({
     layout = wibox.layout.align.horizontal,
-    { -- Left widgets
-      layout = wibox.layout.fixed.horizontal,
-      mylauncher,
-      s.mytaglist,
-      s.mypromptbox,
+    {
+      -- Left widgets
+      {
+        layout = wibox.layout.fixed.horizontal,
+        {
+          s.mytaglist,
+          bg = theme.wibar_bg,
+          shape = gears.shape.rounded_rect,
+          widget = wibox.container.background,
+        },
+      },
+      -- widget = wibox.container.margin,
+      widget = wibox.container.margin,
+      bottom = 2,
+      top = 2,
+      left = 2,
     },
-    s.mytasklist, -- Middle widget
-    { -- Right widgets
+    {
+      -- Center widgets
+      {
+        layout = wibox.layout.align.horizontal,
+        task_spr,
+        {
+          s.mytasklist,
+          shape = gears.shape.rounded_rect,
+          widget = wibox.container.background,
+        },
+        task_spr,
+      },
+      widget = wibox.container.margin,
+      bottom = 2,
+      top = 2,
+    },
+    {
+      -- Right widgets
       layout = wibox.layout.fixed.horizontal,
-      --mykeyboardlayout,
-      bar_spr,
-      wifiwidget,
-      bar_spr,
-      require("battery-widget")({}),
-      bar_spr,
-      wibox.widget.systray(),
-      bar_spr,
-      mytextclock,
-      bar_spr,
-      s.mylayoutbox,
+      {
+        {
+          layout = wibox.layout.fixed.horizontal,
+          {
+            {
+              layout = wibox.layout.fixed.horizontal,
+              half_spr,
+              todo_widget(),
+              half_spr,
+            },
+            bg = theme.wibar_bg,
+            shape = gears.shape.rounded_rect,
+            widget = wibox.container.background,
+          },
+          half_spr,
+          {
+            {
+              layout = wibox.layout.fixed.horizontal,
+              half_spr,
+              volume_widget({
+                device = "default",
+                widget_type = "arc",
+              }),
+              half_spr,
+            },
+            bg = theme.wibar_bg,
+            shape = gears.shape.rounded_rect,
+            widget = wibox.container.background,
+          },
+          half_spr,
+          {
+            {
+              layout = wibox.layout.fixed.horizontal,
+              valign = "center",
+              half_spr,
+              mytextclock,
+              half_spr,
+            },
+            bg = theme.wibar_bg,
+            shape = gears.shape.rounded_rect,
+            widget = wibox.container.background,
+          },
+          half_spr,
+          {
+            {
+              layout = wibox.layout.fixed.horizontal,
+              half_spr,
+              systray,
+              half_spr,
+            },
+            bg = theme.wibar_bg,
+            shape = gears.shape.rounded_rect,
+            widget = wibox.container.background,
+          },
+          half_spr,
+          {
+            {
+              layout = wibox.layout.fixed.horizontal,
+              half_spr,
+              s.mylayoutbox,
+              -- half_spr,
+            },
+            -- bg = theme.bg,
+            bg = theme.wibar_bg,
+            shape = gears.shape.rounded_rect,
+            widget = wibox.container.background,
+          },
+          -- half_spr,
+        },
+        widget = wibox.container.margin,
+        bottom = 2,
+        top = 2,
+        right = 2,
+      },
     },
   })
 end)
 
 -- load the widget code
-local calendar = require("calendar")
+local calendar = require("awesome-wm-widgets.calendar-widget.calendar")
+local cw = calendar({
+  theme = "outrun",
+  placement = "top_right",
+})
 
--- attach it as popup to your text clock widget:
-calendar({}):attach(mytextclock)
+mytextclock:connect_signal("button::press", function(_, _, _, button)
+  if button == 1 then
+    cw.toggle()
+  end
+end)

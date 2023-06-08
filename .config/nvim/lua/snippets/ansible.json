@@ -1,0 +1,18 @@
+{
+  "template": {
+    "prefix": ["template"],
+    "body": [
+      "- name: $1",
+      "\tansible.builtin.template:",
+      "\t\tsrc: \"{{ item }}\"",
+      "\t\tdest: \"/{{ item }}\"",
+      "\t\tmode: '${2:0644}'",
+      "\t\towner: root",
+      "\t\tgroup: root",
+      "\tloop:",
+      "\t\t- $3",
+      ""
+    ],
+    "description": "Copy file template"
+  }
+}

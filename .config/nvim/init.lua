@@ -8,7 +8,7 @@ require("settings")
 -- Packer
 require("plugins")
 
-vim.cmd("colorscheme tokyonight-night")
+-- vim.cmd("colorscheme tokyonight-night")
 vim.cmd([[hi TabLineFill guibg=NONE ctermbg=NONE]])
 
 vim.opt.secure = true

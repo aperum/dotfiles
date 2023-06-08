@@ -13,50 +13,60 @@ vim.opt.rtp:prepend(lazypath)
 
 return require("lazy").setup({
 
-  -- Helpers
-  "nvim-lua/plenary.nvim",
-  "kyazdani42/nvim-web-devicons",
-  "MunifTanjim/nui.nvim",
+  -- Colorschemes
   {
-    "rcarriga/nvim-notify",
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
     config = function()
-      require("plugins.nvim-notify")
+      require("plugins.tokyonight")
     end,
   },
 
-  "folke/tokyonight.nvim",
+  -- {
+  --   "rcarriga/nvim-notify",
+  --   config = function()
+  --     require("plugins.nvim-notify")
+  --   end,
+  -- },
 
-  -- LSP
+  {
+    "williamboman/mason.nvim",
+    build = ":MasonUpdate",
+    dependencies = {
+      "williamboman/mason-lspconfig.nvim",
+      "neovim/nvim-lspconfig",
+      "jose-elias-alvarez/null-ls.nvim",
+      "jay-babu/mason-null-ls.nvim",
+    },
+    config = function()
+      require "plugins.mason"
+    end
+  },
+
   {
     "stevearc/aerial.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
+    },
     config = function()
       require("plugins.aerial")
     end,
   },
-  "williamboman/mason.nvim",
-  "williamboman/mason-lspconfig.nvim",
-  {
-    "neovim/nvim-lspconfig",
-    config = function()
-      require("plugins.lspconfig")
-    end,
-  },
   {
     "onsails/lspkind-nvim",
+    lazy = true,
     config = function()
       require("plugins.lspkind")
     end,
   },
   {
-    "folke/lsp-trouble.nvim",
+    "folke/trouble.nvim",
+    lazy = true,
+    dependencies = "nvim-tree/nvim-web-devicons",
     config = function()
       require("plugins.trouble")
-    end,
-  },
-  {
-    "ray-x/lsp_signature.nvim",
-    config = function()
-      require("plugins.lspsignature")
     end,
   },
   {
@@ -73,7 +83,9 @@ return require("lazy").setup({
   -- Autocomplete
   {
     "L3MON4D3/LuaSnip",
-    dependencies = "rafamadriz/friendly-snippets",
+    dependencies = {
+      "rafamadriz/friendly-snippets",
+    },
     config = function()
       require("plugins.luasnip")
     end,
@@ -86,18 +98,14 @@ return require("lazy").setup({
       "hrsh7th/cmp-nvim-lua",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
+      "hrsh7th/cmp-nvim-lsp-signature-help",
       "f3fora/cmp-spell",
       "saadparwaiz1/cmp_luasnip",
       "ray-x/cmp-treesitter",
+      "rafamadriz/friendly-snippets",
     },
     config = function()
       require("plugins.nvim-cmp")
-    end,
-  },
-  {
-    "windwp/nvim-autopairs",
-    config = function()
-      require("plugins.nvim-autopairs")
     end,
   },
   {
@@ -106,19 +114,21 @@ return require("lazy").setup({
       require("plugins.matchup")
     end,
   },
+  {
+    "windwp/nvim-autopairs",
+    config = function()
+      require("plugins.nvim-autopairs")
+    end,
+  },
 
   -- Treesitter
   {
     "nvim-treesitter/nvim-treesitter",
+    lazy = false,
     build = ":TSUpdate",
+    event = { "BufReadPost", "BufNewFile" },
     config = function()
       require("plugins.treesitter")
-    end,
-  },
-  {
-    "p00f/nvim-ts-rainbow",
-    config = function()
-      require("plugins.nvim-ts-rainbow")
     end,
   },
   {
@@ -127,9 +137,9 @@ return require("lazy").setup({
       require("plugins.indent-blankline")
     end,
   },
-  {
-    "JoosepAlviste/nvim-ts-context-commentstring",
-  },
+  -- {
+  --   "JoosepAlviste/nvim-ts-context-commentstring",
+  -- },
   {
     "abecodes/tabout.nvim",
     config = function()
@@ -137,9 +147,12 @@ return require("lazy").setup({
     end,
   },
   {
-    "SmiteshP/nvim-gps",
+    "SmiteshP/nvim-navic",
+    dependencies = {
+      "neovim/nvim-lspconfig",
+    },
     config = function()
-      require("plugins.nvim-gps")
+      require("plugins.nvim-navic")
     end,
   },
   {
@@ -149,31 +162,23 @@ return require("lazy").setup({
     end,
   },
 
-  -- Syntax
-  "npxbr/glow.nvim",
-  {
-    "mhartington/formatter.nvim",
-    config = function()
-      require("plugins.formatter")
-    end,
-  },
-
   -- Golang
   {
     "ray-x/go.nvim",
-    dependencies = "ray-x/guihua.lua",
+    dependencies = { -- optional packages
+      "ray-x/guihua.lua",
+      "neovim/nvim-lspconfig",
+      "nvim-treesitter/nvim-treesitter",
+    },
     config = function()
       require("plugins.go")
     end,
+    event = { "CmdlineEnter" },
+    ft = { "go", "gomod" },
+    -- build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
   },
 
   -- Status Line and Bufferline
-  -- {
-  --   "feline-nvim/feline.nvim",
-  --   config = function()
-  --     require("plugins.feline")
-  --   end,
-  -- },
   {
     "nvim-lualine/lualine.nvim",
     config = function()
@@ -190,8 +195,31 @@ return require("lazy").setup({
   -- Telescope
   {
     "nvim-telescope/telescope.nvim",
+    lazy = false,
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
     config = function()
       require("plugins.telescope")
+    end,
+  },
+  {
+    "nvim-telescope/telescope-fzf-native.nvim",
+    build = "make"
+  },
+  {
+    "nvim-telescope/telescope-symbols.nvim",
+  },
+  {
+    "benfowler/telescope-luasnip.nvim",
+    config = function()
+      require('telescope').load_extension('luasnip')
+    end,
+  },
+  {
+    "tsakirist/telescope-lazy.nvim",
+    config = function()
+      require('telescope').load_extension('lazy')
     end,
   },
   {
@@ -200,20 +228,24 @@ return require("lazy").setup({
       require("plugins.urlview")
     end,
   },
-  "nvim-telescope/telescope-project.nvim",
   {
     "AckslD/nvim-neoclip.lua",
     config = function()
       require("plugins.neoclip")
     end,
   },
-  "someone-stole-my-name/yaml-companion.nvim",
 
   -- Explorer
   {
-    "kyazdani42/nvim-tree.lua",
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v2.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+    },
     config = function()
-      require("plugins.nvim-tree")
+      require("plugins.neo-tree")
     end,
   },
   {
@@ -227,24 +259,17 @@ return require("lazy").setup({
   },
 
   -- Color
-  {
-    "norcalli/nvim-colorizer.lua",
-    config = function()
-      require("plugins.colorizer")
-    end,
-  },
-
-  -- Comment
-  {
-    "b3nj5m1n/kommentary",
-    config = function()
-      require("plugins.kommentary")
-    end,
-  },
+  -- {
+  --   "NvChad/nvim-colorizer.lua",
+  --   config = function()
+  --     require("plugins.colorizer")
+  --   end,
+  -- },
 
   -- Git
   {
     "lewis6991/gitsigns.nvim",
+    lazy = false,
     config = function()
       require("plugins.gitsigns")
     end,
@@ -271,45 +296,12 @@ return require("lazy").setup({
     end,
   },
 
-  -- Misc
+  -- Mini
   {
-    "stevearc/dressing.nvim",
+    "echasnovski/mini.nvim",
+    version = "*",
     config = function()
-      require("plugins.dressing")
-    end,
-  },
-  {
-    "akinsho/toggleterm.nvim",
-    config = function()
-      require("plugins.toggleterm")
-    end,
-  },
-  {
-    "winston0410/range-highlight.nvim",
-    dependencies = {
-      { "winston0410/cmd-parser.nvim", module = "cmd-parser" },
-    },
-    config = function()
-      require("plugins.range-highlight")
-    end,
-  },
-  {
-    "nacro90/numb.nvim",
-    config = function()
-      require("plugins.numb")
-    end,
-  },
-  {
-    "karb94/neoscroll.nvim",
-    config = function()
-      require("plugins.neoscroll")
-    end,
-  },
-  "simrat39/symbols-outline.nvim",
-  {
-    "mrjones2014/legendary.nvim",
-    config = function()
-      require("plugins.legendary")
+      require("plugins.mini")
     end,
   },
   {
@@ -325,19 +317,26 @@ return require("lazy").setup({
     end,
   },
   {
-    "kylechui/nvim-surround",
-    config = function()
-      require("plugins.nvim-surround")
-    end,
-  },
-  {
     "jinh0/eyeliner.nvim",
     config = function()
       require("plugins.eyeliner")
     end,
   },
-  "gpanders/editorconfig.nvim",
+
+  -- YAML
+  {
+    "someone-stole-my-name/yaml-companion.nvim",
+    dependencies = {
+      "neovim/nvim-lspconfig",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
+    config = function()
+      require("telescope").load_extension("yaml_schema")
+    end,
+  },
+
 }, {
-  install = { colorscheme = { "tokyonight-night" } },
+  -- install = { colorscheme = { "tokyonight-night" } },
   lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
 })

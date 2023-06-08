@@ -1,11 +1,11 @@
-local map = vim.api.nvim_set_keymap
+local map = vim.keymap.set
 
--- leader
+-- Leader
 map("", "<Space>", "<Nop>", { noremap = true, silent = true })
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
--- leader invokes system clipboards
+-- Leader invokes system clipboards
 map("v", "<leader>y", '"+y', { noremap = true, silent = false })
 map("n", "<leader>Y", '"+yg_', { noremap = true, silent = false })
 map("n", "<leader>y", '"+y', { noremap = true, silent = false })
@@ -16,6 +16,7 @@ map("n", "<leader>P", '"+P', { noremap = true, silent = false })
 map("v", "<leader>p", '"+p', { noremap = true, silent = false })
 map("v", "<leader>P", '"+P', { noremap = true, silent = false })
 
+-- UI Shortcuts
 map(
   "n",
   "<F3>",
@@ -23,13 +24,11 @@ map(
   { noremap = true, silent = false }
 )
 map("n", "<F4>", ":set list! list?<CR>", { noremap = false, silent = false })
--- Git
-map("n", "<leader>gd", ":DiffviewOpen<CR>", { noremap = false, silent = false })
-map("n", "<leader>gg", ":Neogit<CR>", { noremap = false, silent = false })
+
 -- LSP
 map("n", "<leader>,", ":lua vim.lsp.diagnostic.goto_prev()<CR>", { noremap = true, silent = true })
 map("n", "<leader>;", ":lua vim.lsp.diagnostic.goto_next()<CR>", { noremap = true, silent = true })
-map("n", "<leader>la", ":lua vim.lsp.diagnostic.code_action()<CR>", { noremap = true, silent = true })
+map("n", "<leader>lA", ":lua vim.lsp.diagnostic.code_action()<CR>", { noremap = true, silent = true })
 map("n", "<leader>lD", ":lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true })
 map("n", "<leader>ld", ":lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
 map("n", "<leader>ltd", "<cmd>lua vim.lsp.buf.type_definition()<CR>", { noremap = true, silent = true })
@@ -69,6 +68,7 @@ map("n", "<leader>xd", "<cmd>Trouble lsp_document_diagnostics<cr>", { silent = t
 map("n", "<leader>xl", "<cmd>Trouble loclist<cr>", { silent = true, noremap = true })
 map("n", "<leader>xq", "<cmd>Trouble quickfix<cr>", { silent = true, noremap = true })
 map("n", "gR", "<cmd>Trouble lsp_references<cr>", { silent = true, noremap = true })
+
 -- Telescope
 map("n", "<leader><space>", [[<cmd>lua require('telescope.builtin').buffers()<CR>]], { noremap = true, silent = true })
 map(
@@ -94,14 +94,12 @@ map(
   { noremap = true, silent = true }
 )
 map("n", "<leader>?", [[<cmd>lua require('telescope.builtin').oldfiles()<CR>]], { noremap = true, silent = true })
+
 -- Cokeline
 for i = 1, 9 do
   map("n", ("<A-%s>"):format(i), ("<Plug>(cokeline-focus-%s)"):format(i), { silent = true })
 end
--- Kommentary
-map("n", "<leader>cc", "<Plug>kommentary_line_default", {})
-map("n", "<leader>c", "<Plug>kommentary_motion_default", {})
-map("x", "<leader>c", "<Plug>kommentary_visual_default<C-c>", {})
+
 -- LuaSnip
 map("i", "<Tab>", "v:lua.tab_complete()", { expr = true })
 map("s", "<Tab>", "v:lua.tab_complete()", { expr = true })
@@ -109,10 +107,13 @@ map("i", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true })
 map("s", "<S-Tab>", "v:lua.s_tab_complete()", { expr = true })
 map("i", "<C-E>", "<Plug>luasnip-next-choice", {})
 map("s", "<C-E>", "<Plug>luasnip-next-choice", {})
--- Formatter
-map("n", "<leader>f", [[<cmd>Format<CR>]], { noremap = true, silent = true })
+--
+-- Formatting
+map("n", "<leader>f", [[<cmd>lua vim.lsp.buf.format()<CR>]], { noremap = true, silent = true })
+
 -- NeoClip
 map("n", "<leader>nc", [[<cmd>Telescope neoclip plus<CR>]], { noremap = true, silent = true })
+
 -- Aerial
 vim.api.nvim_buf_set_keymap(0, "n", "<leader>a", "<cmd>AerialToggle!<CR>", { noremap = true, silent = true })
 

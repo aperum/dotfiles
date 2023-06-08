@@ -105,7 +105,7 @@ local my_tags = {
   tags = {
     {
       --names = { "3as", "Misc", "Shell", "Hastur", "WWW", "IM", "Root", "Mail" },
-      names = { "", "襁", "", "", "", "", "", "" },
+      names = { "", "󰖷", "󰅬", "", "", "󰍩", "󰅬", "" },
       layout = { lo[3], lo[3], lo[3], lo[3], lo[3], lo[3], lo[3], lo[3], lo[3] },
       icons = {
         "",

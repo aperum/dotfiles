@@ -1,15 +1,8 @@
-vim.cmd(
-  [[
-autocmd BufNewFile,BufRead /tmp/mutt-* set filetype=mail
-autocmd BufNewFile,BufRead /*.rasi setf css
-augroup ruby_subtypes
-  autocmd!
-  autocmd BufNewFile,BufRead *.pdf.erb let b:eruby_subtype='html'
-  autocmd BufNewFile,BufRead *.pdf.erb set filetype=eruby
-augroup END
-au BufRead,BufNewFile jquery.*.js set ft=javascript syntax=jquery
-au BufRead,BufNewFile */playbooks/*.yml set filetype=yaml.ansible
-au BufRead,BufNewFile */roles/*.yml set filetype=yaml.ansible
-]],
-  true
-)
+local api = vim.api
+
+local ansible_group = api.nvim_create_augroup("ansible_files", { clear = true })
+api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+	pattern = { "*/playbooks/*.yml", "*/roles/*.yml" },
+	command = "set filetype=yaml.ansible",
+	group = ansible_group,
+})

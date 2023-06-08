@@ -173,10 +173,10 @@ require("cokeline").setup({
 
   sidebar = {
     max_buffer_width = 23,
-    filetype = "NvimTree",
+    filetype = "neo-tree",
     components = {
       {
-        text = "  NvimTree",
+        text = "  Explorer",
         fg = colors.yellow,
         bg = colors.bg,
         style = "bold",

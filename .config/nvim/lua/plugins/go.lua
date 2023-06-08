@@ -11,6 +11,6 @@ require("go").setup({
   dap_debug = true,
 })
 
-vim.cmd([[
-  autocmd InsertLeave <buffer> lua vim.lsp.buf.format(nil,500)
-]])
+-- vim.cmd([[
+--   autocmd InsertLeave <buffer> lua vim.lsp.buf.format(nil,500)
+-- ]])
