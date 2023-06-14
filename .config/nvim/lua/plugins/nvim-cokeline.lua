@@ -14,7 +14,7 @@ local min_buffer_width = 23
 local components = {
   separator = {
     text = " ",
-    bg = colors.none,
+    bg = colors.bg_dark,
     truncation = { priority = 1 },
   },
 
@@ -25,15 +25,15 @@ local components = {
 
   left_half_circle = {
     text = "",
-    fg = colors.bg,
-    bg = colors.none,
+    fg = colors.bg_highlight,
+    bg = colors.bg_dark,
     truncation = { priority = 1 },
   },
 
   right_half_circle = {
     text = "",
-    fg = colors.bg,
-    bg = colors.none,
+    fg = colors.bg_highlight,
+    bg = colors.bg_dark,
     truncation = { priority = 1 },
   },
 
@@ -186,7 +186,7 @@ require("cokeline").setup({
 
   default_hl = {
     fg = colors.fg,
-    bg = colors.bg
+    bg = colors.bg_highlight,
   },
 
   components = {

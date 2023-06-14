@@ -131,7 +131,7 @@ fi
 
 # Download zinit plugin manager if missing.
 if [[ ! -f ${ZINIT[BIN_DIR]}/zinit.zsh ]]; then
-  git clone https://github.com/zdharma-continuum/zpcompinit ~/.zsh/zinit
+  git clone https://github.com/zdharma-continuum/zinit ~/.zsh/zinit
 fi
 
 # Load zinit and plugins

@@ -22,10 +22,10 @@ neotree.setup({
     content_layout = "center",
     tabs_layout = "equal",
     sources = {
-      { source = "filesystem", display_name =  "  " },
-      { source = "buffers", display_name = "  " },
-      { source = "git_status", display_name = "  " },
-      { source = "diagnostics", display_name = " 裂" },
+      { source = "filesystem", display_name =  " 󰉓 " },
+      { source = "buffers", display_name = " 󰈙 " },
+      { source = "git_status", display_name = " 󰊢 " },
+      { source = "diagnostics", display_name = " 󰒡" },
     },
   },
   default_component_configs = {
@@ -47,14 +47,14 @@ neotree.setup({
       -- expander_collapsed = "",
       -- expander_expanded = "",
 
-      -- expander_collapsed = " ",
+      -- expander_collapsed = " 󰉋",
       -- expander_expanded = " ",
       expander_collapsed = "",
       expander_expanded = "",
       expander_highlight = "NeoTreeExpander",
     },
     icon = {
-      folder_closed = "",
+      folder_closed = "󰉋",
       folder_open = "",
       folder_empty = "",
       -- folder_closed = "",

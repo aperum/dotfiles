@@ -45,6 +45,12 @@ return require("lazy").setup({
   },
 
   {
+    "ojroques/nvim-osc52",
+    config = function()
+      require("plugins.nvim-ocs52")
+    end,
+  },
+  {
     "stevearc/aerial.nvim",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
