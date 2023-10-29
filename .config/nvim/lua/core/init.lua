@@ -1,0 +1,5 @@
+require("core.autocmds")
+require("core.options")
+require("core.keymap")
+require("core.filetype")
+require("core.plugins")

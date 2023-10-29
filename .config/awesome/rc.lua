@@ -1,43 +1,18 @@
--- Get home directory
-home = os.getenv("HOME")
-
--- Standard awesome library
-gears = require("gears")
-awful = require("awful")
+local gears = require("gears")
 require("awful.autofocus")
--- Widget and layout library
-wibox = require("wibox")
--- Theme handling library
-beautiful = require("beautiful")
--- Notification library
-naughty = require("naughty")
-menubar = require("menubar")
-vicious = require("vicious")
-machi = require("layout-machi")
--- Enable VIM help for hotkeys widget when client with matching name is opened:
-require("awful.hotkeys_popup.keys.vim")
---require("awful.remote")
 
 local socket = require("socket")
 local hostname = socket.dns.gethostname()
 local host = hostname:match("([%w]+).?")
+local home = os.getenv("HOME")
 
--- check if we are virtualized
-local virthandle = io.popen("systemd-detect-virt")
-virt = virthandle:read("*a")
-virthandle:close()
-virt = string.gsub(virt, "%s+", "")
-
-require("includes/errorhandling")
-require("includes/defines")
-require("includes/functions")
-require("includes/run_once")
-require("includes/keys")
-require("includes/bar-" .. host)
-require("includes/menu")
-require("includes/rules")
-require("includes/signals")
-require("includes/autostart")
+require("errorhandling")
+require("defines")
+require("keys")
+require("bars." .. host)
+require("rules")
+require("signals")
+require("autostart")
 
 collectgarbage("setpause", 160)
 collectgarbage("setstepmul", 400)

@@ -1,5 +1,7 @@
-require("trouble").setup({
-  -- auto_open = true,
-  -- auto_close = true,
-  mode = "document_diagnostics",
-})
+return {
+  "folke/trouble.nvim",
+  dependencies = "nvim-tree/nvim-web-devicons",
+  opts = {
+    mode = "document_diagnostics",
+  }
+}

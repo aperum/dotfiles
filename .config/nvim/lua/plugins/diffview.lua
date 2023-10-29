@@ -1,3 +1,4 @@
-local cb = require("diffview.config").diffview_callback
-
-require("diffview").setup({})
+return {
+  "sindrets/diffview.nvim",
+  opts = {},
+}

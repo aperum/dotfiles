@@ -153,7 +153,7 @@ zinit light romkatv/powerlevel10k
 
 zinit light zsh-users/zsh-history-substring-search
 
-zinit ice wait atinit"zpcompinit; zpcdreplay" lucid
+#zinit ice wait atinit"zpcompinit; zpcdreplay" lucid
 zinit light zdharma-continuum/fast-syntax-highlighting
 
 zinit ice wait atload"_zsh_autosuggest_start" lucid
@@ -229,9 +229,22 @@ key[PageDown]=${terminfo[knp]}
 #     zle -N zle-line-finish
 # fi
 
+# ---[ Tmux section ]-------------------------------------------------
+_update_ssh_agent() {
+    local var
+    var=$(tmux show-environment |grep '^SSH_AUTH_SOCK=')
+    if [ "$?" -eq 0 ]; then
+        eval "$var"
+    fi
+}
+if [[ -n "$TMUX" ]]; then
+    add-zsh-hook precmd _update_ssh_agent
+fi
 
 # ---[ Misc & Includes ]-----------------------------------------------
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
+
+FAST_HIGHLIGHT_STYLES[comment]="fg=blue"
 
 #eval `dircolors ${LOCAL_PATH}/dircolors`
 

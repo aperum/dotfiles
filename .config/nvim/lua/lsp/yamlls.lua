@@ -23,6 +23,7 @@ local config = require("yaml-companion").setup({
           ["https://json.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
           ["https://raw.githubusercontent.com/ansible/schemas/main/f/ansible.json"] = "roles/*/tasks/*.{yml,yaml}",
           ["https://raw.githubusercontent.com/ansible/schemas/main/f/ansible.json#/$defs/playbook"] = "playbooks/*.{yml,yaml}",
+          ["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "**/docker-compose*.yml",
           ["https://json.schemastore.org/prettierrc"] = ".prettierrc.{yml,yaml}",
           ["https://json.schemastore.org/stylelintrc"] = ".stylelintrc.{yml,yaml}",
           ["https://json.schemastore.org/circleciconfig"] = ".circleci/**/*.{yml,yaml}",

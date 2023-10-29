@@ -1,1 +1,4 @@
-require("twilight").setup({})
+return {
+  "folke/twilight.nvim",
+  opts = {},
+}

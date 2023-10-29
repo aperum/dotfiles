@@ -9,7 +9,9 @@ local dpi = xresources.apply_dpi
 local gfs = require("gears.filesystem")
 local themes_path = gfs.get_configuration_dir() .. "themes/"
 
-theme = {}
+local home = os.getenv("HOME")
+
+local theme = {}
 
 theme.font = "Work Sans 11"
 theme.taglist_font = "RobotoMono Nerd Font Mono Md 16"
@@ -115,6 +117,7 @@ theme.titlebar_maximized_button_focus_active = themes_path .. "mine/titlebar/max
 --theme.wallpaper[2] = home .. "/Pictures/GpUinf.png"
 theme.wallpaper = function(s)
   local wallpapers = {
+    themes_path .. "mine/walls/portal_aperture_laboratories.jpg",
     themes_path .. "mine/walls/deep_blue.jpg",
     home .. "/wall.png",
     home .. "/Pictures/kg2SiD.jpg",

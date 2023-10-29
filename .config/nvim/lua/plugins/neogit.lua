@@ -1,7 +1,12 @@
-local neogit = require("neogit")
-
-neogit.setup {
-  integrations = {
-    diffview = true,
+return {
+  "NeogitOrg/neogit",
+  dependencies = {
+    "sindrets/diffview.nvim",
+    'nvim-lua/plenary.nvim',
+  },
+  opts = {
+    integrations = {
+      diffview = true,
+    },
   },
 }
