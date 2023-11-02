@@ -241,6 +241,11 @@ if [[ -n "$TMUX" ]]; then
     add-zsh-hook precmd _update_ssh_agent
 fi
 
+_update_xterm_title() {
+  print -Pn "\e]0;zsh\a"
+}
+add-zsh-hook precmd _update_xterm_title
+
 # ---[ Misc & Includes ]-----------------------------------------------
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=240'
 

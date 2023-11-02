@@ -1,10 +1,20 @@
 return {
   "nvim-neo-tree/neo-tree.nvim",
-  branch = "v2.x",
+  branch = "v3.x",
+  cmd = "Neotree",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
     "MunifTanjim/nui.nvim",
+  },
+  keys = {
+    {
+      "<F2>",
+      function()
+        require("neo-tree.command").execute({ toggle = true })
+      end,
+      desc = "Toggle Neotree",
+    },
   },
   config = function()
     -- Unless you are still migrating, remove the deprecated commands from v1.x
@@ -174,9 +184,11 @@ return {
             --"thumbs.db"
           },
         },
-        follow_current_file = true,         -- This will find and focus the file in the active buffer every
+        follow_current_file = {
+          enabled = true,
+        },                                      -- This will find and focus the file in the active buffer every
         -- time the current file is changed while the tree is open.
-        group_empty_dirs = false,           -- when true, empty folders will be grouped together
+        group_empty_dirs = false,               -- when true, empty folders will be grouped together
         hijack_netrw_behavior = "open_default", -- netrw disabled, opening a directory opens neo-tree
         -- in whatever position is specified in window.position
         -- "open_current",  -- netrw disabled, opening a directory opens within the
@@ -198,7 +210,9 @@ return {
         },
       },
       buffers = {
-        follow_current_file = true, -- This will find and focus the file in the active buffer every
+        follow_current_file = {
+          enabled = true,
+        },                       -- This will find and focus the file in the active buffer every
         -- time the current file is changed while the tree is open.
         group_empty_dirs = true, -- when true, empty folders will be grouped together
         show_unloaded = true,
@@ -291,6 +305,6 @@ return {
       },
     })
 
-    vim.cmd([[nnoremap <F2> :Neotree toggle<cr>]])
+    -- vim.cmd([[nnoremap <F2> :Neotree toggle<cr>]])
   end,
 }

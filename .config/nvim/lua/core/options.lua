@@ -34,6 +34,7 @@ vim.opt.smartcase = true
 vim.opt.errorbells = false
 vim.opt.joinspaces = false
 vim.opt.title = true
+vim.opt.titlestring = [[%t]]
 vim.opt.colorcolumn = "0"
 vim.opt.lazyredraw = true
 vim.o.breakindent = true

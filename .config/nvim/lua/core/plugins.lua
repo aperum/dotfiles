@@ -14,6 +14,9 @@ vim.opt.rtp:prepend(lazypath)
 local lazy_options = {
   install = { colorscheme = { "tokyonight-night" } },
   lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
+  change_detection = {
+    notify = false,
+  },
 }
 
 require("lazy").setup("plugins", lazy_options)

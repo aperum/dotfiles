@@ -8,7 +8,7 @@ return {
     local hipatterns = require("mini.hipatterns")
     local indentscope = require("mini.indentscope")
     local sessions = require("mini.sessions")
-    local starter = require("mini.starter")
+    -- local starter = require("mini.starter")
     local surround = require("mini.surround")
     local splitjoin = require("mini.splitjoin")
 
@@ -18,6 +18,7 @@ return {
       mappings = {
         comment = "<leader>c",
         comment_line = "<leader>cc",
+        comment_visual = '<leader>c',
         textobject = "<leader>c",
       },
     })
