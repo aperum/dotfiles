@@ -211,5 +211,9 @@ return {
         components.right_half_circle,
       },
     })
+
+    for i = 1, 9 do
+      vim.keymap.set("n", ("<A-%s>"):format(i), ("<Plug>(cokeline-focus-%s)"):format(i), { silent = true })
+    end
   end,
 }

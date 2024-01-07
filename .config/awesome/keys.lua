@@ -79,7 +79,7 @@ keys.globalkeys = gears.table.join(
   }),
   awful.key({ modkey }, "u", awful.client.urgent.jumpto, { description = "jump to urgent client", group = "client" }),
   awful.key({ modkey }, "l", function()
-    awful.spawn("xautolock -locknow")
+    awful.spawn("loginctl lock-session")
   end, {
     description = "lock screen",
     group = "launcher",

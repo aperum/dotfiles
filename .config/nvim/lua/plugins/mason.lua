@@ -43,14 +43,33 @@ return {
 
     -- Setup every needed language server in lspconfig
     local on_attach = function(client, bufnr)
+      client.server_capabilities.documentFormattingProvider = true
+      client.server_capabilities.documentRangeFormattingProvider = true
+      client.server_capabilities.semanticTokensProvider = nil
     end
 
     local function make_config(server_name)
       local c = {}
       c.on_attach = on_attach
-      c.capabilities = vim.lsp.protocol.make_client_capabilities()
+      -- c.capabilities = vim.lsp.protocol.make_client_capabilities()
       c.capabilities = require("cmp_nvim_lsp").default_capabilities()
-      c.capabilities.textDocument.completion.completionItem.documentationFormat = { "markdown", "plaintext" }
+      c.capabilities.textDocument.completion.completionItem = {
+        documentationFormat = { "markdown", "plaintext" },
+        snippetSupport = true,
+        preselectSupport = true,
+        insertReplaceSupport = true,
+        labelDetailsSupport = true,
+        deprecatedSupport = true,
+        commitCharacterSupport = true,
+        tagSupport = { valueSet = { 1 } },
+        resolveSupport = {
+          properties = {
+            "documentation",
+            "detail",
+            "additionalTextEdits",
+          },
+        },
+      }
 
       -- Merge user-defined lsp settings.
       local exists, module = pcall(require, "lsp." .. server_name)

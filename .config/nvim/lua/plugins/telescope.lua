@@ -14,6 +14,73 @@ return {
       },
     },
     opts = {},
+    keys = {
+      {
+        "<leader><space>",
+        function()
+          require('telescope.builtin').buffers()
+        end,
+        desc = "Telescope buffers",
+      },
+      {
+        "<leader>sf",
+        function()
+          require('telescope.builtin').find_files({
+            previewer = false,
+          })
+        end,
+        desc = "Telescope find files",
+      },
+      {
+        "<leader>sb",
+        function()
+          require('telescope.builtin').current_buffer_fuzzy_find()
+        end,
+        desc = "Telescope buffer fuzzy find",
+      },
+      {
+        "<leader>sh",
+        function()
+          require('telescope.builtin').help_tags()
+        end,
+        desc = "Telescope help tags",
+      },
+      {
+        "<leader>st",
+        function()
+          require('telescope.builtin').tags()
+        end,
+        desc = "Telescope tags",
+      },
+      {
+        "<leader>sd",
+        function()
+          require('telescope.builtin').grep_string()
+        end,
+        desc = "Telescope grep string",
+      },
+      {
+        "<leader>sp",
+        function()
+          require('telescope.builtin').live_grep()
+        end,
+        desc = "Telescope live grep",
+      },
+      {
+        "<leader>so",
+        function()
+          require('telescope.builtin').tags({ only_current_buffer = true })
+        end,
+        desc = "Telescope current buffer",
+      },
+      {
+        "<leader>s?",
+        function()
+          require('telescope.builtin').oldfiles()
+        end,
+        desc = "Telescope old files",
+      },
+    },
   },
 
   {

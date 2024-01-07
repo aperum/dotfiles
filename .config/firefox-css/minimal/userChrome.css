@@ -1,0 +1,533 @@
+/*#If your laptop are surffering by the animation, you could change all the "--*-transition-duration" to 0,esaly using Regular expression in npp++ 
+Find:"duration: .*"  
+Replace: "duration: 0s;"
+#*/
+
+/*#this fix the urlbar not getting correct params when using userchrome.css#*/
+
+:root:not([uidensity]) #urlbar[breakout],
+:root:not([uidensity]) #urlbar-container[breakout] {
+  --urlbar-toolbar-height: 40px !important;
+  --urlbar-height: 32px !important;
+  --urlbar-container-height: 40px !important;
+}
+
+:root[uidensity="touch"] #urlbar[breakout],
+:root[uidensity="touch"] #urlbar-container[breakout] {
+  --urlbar-toolbar-height: 44px !important;
+  --urlbar-height: 34px !important;
+  --urlbar-container-height: 44px !important;
+}
+
+/*
+# Tabs expand when leaved
+# This will break firefox. When you close tabs, it won't actually close and still running at background, like still playing video. You may check by entering about:performance
+# There has some problem I can't fix, when it reach among of tabs, will hardly relocate the current tabs.
+# But I common usage it will not be a problem (when the tabs not overflowing)
+
+
+:root {
+	--Tabs-transition-duration: 0.3s;
+	--Tabs-transition-delay: 1s;
+}
+
+#titlebar:not(:hover) .tabbrowser-tab:not([pinned="true"], [visuallyselected=true], [multiselected]) {
+	max-width: 35px!important;
+	min-width: 35px!important;
+	overflow: hidden;
+	transition: all var(--Tabs-transition-duration) ease-out var(--Tabs-transition-delay)!important;
+}
+
+#titlebar:not(:hover) .tabbrowser-tab:not([pinned="true"])[visuallyselected=true] {
+	max-width: 100vw!important;
+	overflow: hidden;
+	transition: max-width var(--Tabs-transition-duration) ease-out var(--Tabs-transition-delay)!important;
+}
+
+.tabbrowser-tab:not([visuallyselected=true]) .tab-close-button {
+	display: none!important;
+}
+
+#titlebar:hover .tabbrowser-tab:not([pinned="true"]) .tab-close-button {
+	display: -moz-inline-box!important;
+}
+
+.tabbrowser-tab:not([fadein]) {
+	display: none;
+}
+*/
+
+/*Adjust Mute icon*/
+
+.tabbrowser-tab:not([visuallyselected="true"]):not(:hover) .tab-icon-overlay {
+  opacity: 1 !important;
+  top: -9.5px !important;
+  inset-inline-end: -6px !important;
+  stroke: var(--tab-icon-overlay-stroke, white) !important;
+  transition: var(--Tabs-transition-duration);
+}
+
+.tabbrowser-tab:not([visuallyselected="true"]):not(:hover) .tab-icon-sound {
+  /*! display: none!important; */
+}
+
+/*not to confuse using new tabs button*/
+
+#TabsToolbar:not(:hover) #tabs-newtab-button {
+  opacity: 0 !important;
+}
+
+/* 
+# Auto-hide Navigation bar
+Source file https://github.com/MrOtherGuy/firefox-csshacks/tree/master/chrome/autohide_bookmarks_toolbar.css made available under Mozilla Public License v. 2.0
+See the above repository for updates as well as full license text. 
+*/
+
+:root {
+  --navbar-transition-delay: 0.2s;
+  --navbar-transition-duration: 135ms;
+  --nav-bar-margin: calc(
+    -1 * (var(--tab-block-margin) + var(--tab-min-height))
+  );
+}
+
+:root:not([uidensity]) {
+  --bookmark-bar-margin: -28px;
+}
+
+:root[uidensity="touch"] {
+  --bookmark-bar-margin: -34px;
+}
+
+/*Auto-hide url-bar*/
+
+:root:not([customizing])[chromehidden=""][sizemode="normal"] #nav-bar,
+:root:not([customizing])[chromehidden=""][sizemode="maximized"] #nav-bar {
+  position: relative;
+  margin-bottom: var(--nav-bar-margin);
+  transform: rotateX(90deg);
+  transform-origin: top;
+  transition: transform var(--navbar-transition-duration) linear
+    var(--navbar-transition-delay) !important;
+  z-index: 101;
+}
+
+:root:not([customizing])[sizemode="normal"] #navigator-toolbox:hover #nav-bar,
+:root:not([customizing])[sizemode="maximized"]
+  #navigator-toolbox:hover
+  #nav-bar,
+:root:not([customizing])[sizemode="normal"]
+  #navigator-toolbox:focus-within
+  #nav-bar,
+:root:not([customizing])[sizemode="maximized"]
+  #navigator-toolbox:focus-within
+  #nav-bar {
+  transform: rotateX(0deg);
+  transition-delay: 0s !important;
+}
+
+/* Auto-hide bookmark bar */
+
+#PersonalToolbar {
+  --uc-autohide-toolbar-delay: 600ms;
+}
+
+:root:not([customizing])[sizemode="normal"] #PersonalToolbar,
+:root:not([customizing])[sizemode="maximized"] #PersonalToolbar {
+  position: relative;
+  margin-bottom: var(--bookmark-bar-margin);
+  transform: rotateX(90deg)
+    translate(0px, calc(-1 * var(--bookmark-bar-margin)));
+  transform-origin: top;
+  transition: transform var(--navbar-transition-duration) linear
+    var(--navbar-transition-delay) !important;
+  z-index: 99;
+}
+
+:root:not([customizing])[sizemode="normal"]
+  #navigator-toolbox:hover
+  #PersonalToolbar,
+:root:not([customizing])[sizemode="maximized"]
+  #navigator-toolbox:hover
+  #PersonalToolbar {
+  transition-delay: 0s !important;
+  transform: rotateX(0) translate(0px, calc(-1 * var(--nav-bar-margin)));
+}
+
+/*Auto-hide-tab-bar*/
+
+/* :root {
+  --tabbar-transition-delay: 3s;
+}
+:root[uidensity="normal"] {
+  --tabbar-padding-height: 0px;
+}
+:root[uidensity="touch"] {
+  --tabbar-padding-height: 1px;
+}
+:root:not([customizing])[chromehidden=""][sizemode="normal"]
+  #navigator-toolbox {
+  border-bottom: none !important;
+  position: absolute;
+  margin-top: calc(-1 * var(--tab-min-height) - 2 * var(--tab-block-margin));
+  transition: var(--navbar-transition-duration) linear
+    var(--tabbar-transition-delay);
+  z-index: 1;
+  transform: translate(
+    0,
+    calc(1 * var(--tab-min-height) + 2 * var(--tab-block-margin))
+  );
+}
+
+:root:not([customizing])[chromehidden=""][sizemode="normal"]
+  #navigator-toolbox:hover,
+:root:not([customizing])[chromehidden=""][sizemode="normal"]
+  #navigator-toolbox:focus-within {
+  padding-bottom: var(--tabbar-padding-height);
+  transform: none;
+  margin-top: 0;
+  transition-delay: 0s;
+  opacity: 1;
+}
+
+:root:not([customizing])[chromehidden=""][sizemode="maximized"]
+  #navigator-toolbox {
+  border-bottom: none !important;
+  padding-bottom: var(--tabbar-padding-height);
+  position: relative;
+  margin-top: calc(
+    -1 * var(--tab-min-height) - 2 * var(--tab-block-margin) + 0.1px
+  );
+  transition-delay: var(--navbar-transition-delay);
+  z-index: 1;
+}
+:root:not([customizing])[chromehidden=""][sizemode="maximized"]
+  #navigator-toolbox:hover,
+:root:not([customizing])[chromehidden=""][sizemode="maximized"]
+  #navigator-toolbox:focus-within {
+  min-height: var(--tab-min-height);
+  transform: translate(
+    0px,
+    calc(1 * var(--tab-min-height) + 2 * var(--tab-block-margin))
+  );
+  transition-delay: 0s;
+}
+
+/*notification-deck*/
+#PersonalToolbar ~ div,
+#tab-notification-deck {
+  height: 0px !important;
+  position: relative;
+  z-index: 100;
+}
+.notificationbox-stack[notificationside="top"] {
+  margin-top: calc(-1 * var(--tab-min-height) - 2 * var(--tab-block-margin));
+  transition: transform var(--navbar-transition-duration) linear
+    var(--navbar-transition-delay);
+}
+#navigator-toolbox:hover .notificationbox-stack[notificationside="top"],
+#navigator-toolbox:focus-within .notificationbox-stack[notificationside="top"] {
+  transform: translate(
+    0,
+    calc(2 * var(--tab-min-height) + 2 * var(--tab-block-margin))
+  );
+  transition-delay: 0s;
+}
+*/
+
+/*adjust theme*/
+
+:root[sizemode="maximized"] {
+  --image-height: calc(
+    var(--tab-min-height) + 2 * var(--tab-block-margin) + 8.1px
+  );
+}
+:root[sizemode="normal"] {
+  --image-height: calc(var(--tab-min-height) + 2 * var(--tab-block-margin));
+}
+/*tabs background fix*/
+#tabbrowser-tabs:not([movingtab])
+  > #tabbrowser-arrowscrollbox
+  > .tabbrowser-tab
+  > .tab-stack
+  > .tab-background[multiselected="true"]:-moz-lwtheme,
+#tabbrowser-tabs:not([movingtab])
+  > #tabbrowser-arrowscrollbox
+  > .tabbrowser-tab
+  > .tab-stack
+  > .tab-background[selected="true"]:-moz-lwtheme {
+  background-image: linear-gradient(
+      var(--lwt-selected-tab-background-color, transparent),
+      var(--lwt-selected-tab-background-color, transparent)
+    ),
+    linear-gradient(var(--toolbar-bgcolor), var(--toolbar-bgcolor)) !important;
+}
+/*odd line*/
+#nav-bar {
+  box-shadow: none !important;
+}
+/*change background from navigator-toolbox to tabstoolbar */
+:root:not([customizing])[chromehidden=""][sizemode="maximized"]
+  #navigator-toolbox:not(:-moz-lwtheme) {
+  background: -moz-Dialog !important;
+}
+:root:not([customizing])[chromehidden=""] #navigator-toolbox {
+  background: transparent !important;
+  transition-delay: var(--tabbar-transition-delay);
+}
+
+:root:not([customizing])[chromehidden=""][lwtheme-image]
+  #navigator-toolbox:-moz-lwtheme
+  #TabsToolbar:before {
+  background-image: var(--lwt-header-image), var(--lwt-additional-images);
+}
+:root:not([customizing])[chromehidden=""] #TabsToolbar::before {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: var(--image-height);
+  background-image: var(--lwt-additional-images);
+  background-color: var(
+    --lwt-accent-color-inactive,
+    var(--lwt-accent-color)
+  ) !important;
+  background-repeat: var(--lwt-background-tiling) !important;
+  background-position: var(--lwt-background-alignment) !important;
+  opacity: 0;
+  transition-property: opacity, height;
+  transition-duration: 0s, var(--navbar-transition-duration);
+  transition-delay: var(--tabbar-transition-delay),
+    var(--navbar-transition-delay);
+  z-index: -1;
+}
+
+:root:not([customizing])[chromehidden=""][sizemode="normal"]
+  #navigator-toolbox:-moz-lwtheme:hover
+  #TabsToolbar::before,
+:root:not([customizing])[chromehidden=""][sizemode="normal"]
+  #navigator-toolbox:-moz-lwtheme:focus-within
+  #TabsToolbar::before {
+  height: calc(2 * var(--tab-min-height) + 3 * var(--tab-block-margin));
+  opacity: 1;
+  transition-delay: 0s;
+}
+
+:root:not([customizing])[chromehidden=""][sizemode="maximized"]
+  #navigator-toolbox:-moz-lwtheme:hover
+  #TabsToolbar::before,
+:root:not([customizing])[chromehidden=""][sizemode="maximized"]
+  #navigator-toolbox:-moz-lwtheme:focus-within
+  #TabsToolbar::before {
+  height: calc(2 * var(--tab-min-height) + 3 * var(--tab-block-margin));
+  opacity: 1;
+  transition-delay: 0s;
+}
+/*Able to drop Tabs when all hided*/
+
+:root:not([customizing])[chromehidden=""][sizemode="normal"] arrowscrollbox,
+:root:not([customizing])[chromehidden=""][sizemode="normal"]
+  .titlebar-buttonbox-container {
+  animation: titlebaropacityoff var(--navbar-transition-duration) linear
+    var(--tabbar-transition-delay) forwards;
+}
+
+@keyframes titlebaropacityoff {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+:root:not([customizing])[chromehidden=""][sizemode="normal"]
+  .tab-drop-indicator {
+  animation: indicator 0s forwards;
+}
+
+@keyframes indicator {
+  from {
+  }
+
+  to {
+    transform: translate(0);
+    background: rgba(10, 132, 255, 0.5);
+    margin-right: -100vw;
+    margin-left: -40px;
+    width: 100vw;
+    border: 2px dashed rgba(10, 132, 255, 1);
+  }
+}
+:root:not([customizing])[chromehidden=""][sizemode="normal"]
+  #navigator-toolbox:hover
+  arrowscrollbox,
+:root:not([customizing])[chromehidden=""][sizemode="normal"]
+  #navigator-toolbox:focus-within
+  arrowscrollbox,
+:root:not([customizing])[chromehidden=""][sizemode="normal"]
+  #navigator-toolbox:hover
+  .titlebar-buttonbox-container,
+:root:not([customizing])[chromehidden=""][sizemode="normal"]
+  #navigator-toolbox:focus-within
+  .titlebar-buttonbox-container {
+  animation: none;
+}
+/*adjust toolbar-menubar (Alt Key)*/
+
+:root:not([customizing])[sizemode="maximized"]
+  #navigator-toolbox:not(:hover)
+  #toolbar-menubar:not([inactive]) {
+  margin-top: calc(1 * var(--tab-min-height) + 2 * var(--tab-block-margin));
+  transition-delay: var(--navbar-transition-delay);
+}
+
+/* 
+# Urlbar lager when active
+*/
+
+:root:not([customizing])[sizemode="normal"]
+  #urlbar-container:focus-within
+  #urlbar {
+  position: fixed !important;
+  width: 90% !important;
+  margin-left: 5%;
+}
+
+#urlbar[breakout] {
+  z-index: 1;
+}
+
+/*
+# Sidebar Auto Hide
+# https://github.com/Getulio-Mendes/.dotFiles/tree/master/Firefox/chrome
+*/
+
+:root {
+  --sidebar-button-size: 15px;
+  --sidebar-width: 400px;
+  --sidebar-button-distance: 40px;
+  --sidebar-toolbar-height: 0px;
+  --sidebar-menubar-height: 0px;
+  --sidebar-transition-duration: 0.2s;
+  --sidebar-transition-delay: 0.8s;
+  --sidebar-shadow-color: #28282f;
+  --sidebar-button-color: #000;
+}
+
+#sidebar-switcher-arrow,
+#sidebar-switcher-target,
+#sidebar-switcher-target:active,
+#sidebar-close,
+#sidebar-close:active {
+  padding-bottom: 10px !important;
+  outline: none !important;
+  background: none !important;
+}
+
+#sidebar-box {
+  z-index: 2 !important;
+  position: relative !important;
+  padding-top: calc(-1 * var(--menubar-height));
+  min-width: var(--sidebar-width) !important;
+  max-width: var(--sidebar-width) !important;
+  transition: all var(--sidebar-transition-duration) ease-in-out;
+  margin-top: var(--menubar-height) !important;
+}
+
+#sidebar {
+  border-right: none !important;
+  max-width: var(--sidebar-width) !important;
+}
+
+#sidebar-header {
+  display: -webkit-box !important;
+  position: fixed !important;
+  -webkit-box-pack: justify;
+  border-bottom: none !important;
+  color: var(--sidebar-button-color);
+  height: calc(10px + var(--sidebar-button-size));
+}
+
+#sidebar-switcher-target {
+  z-index: 1;
+}
+
+#sidebar-switcher-arrow,
+#sidebar-title {
+  display: none;
+}
+
+#sidebar-icon,
+#sidebar-close image {
+  padding: 4px;
+  block-size: calc(10px + var(--sidebar-button-size)) !important;
+  width: calc(10px + var(--sidebar-button-size)) !important;
+  transform: rotate(-90deg);
+  background-color: rgba(241, 241, 241, 0.4);
+  border-radius: 5px 5px 5px 5px;
+}
+
+/*When sidebar is move to left */
+
+/*sidebar-button-distance*/
+
+#sidebar-box[style*="-moz-box-ordinal-group: 1"] #sidebar-header {
+  transform: translate(
+      calc(var(--sidebar-width) + var(--sidebar-button-distance) - 70px),
+      50vh
+    )
+    rotate(90deg);
+}
+
+/* inner width = expanded width & move inner to only show initial-width long section */
+
+#sidebar-box[style*="-moz-box-ordinal-group: 1"] {
+  margin-left: calc(-1 * var(--sidebar-width));
+}
+
+/* move inner to show entire sidebar */
+
+#sidebar-box[style*="-moz-box-ordinal-group: 1"]:hover {
+  margin-left: 0px;
+  margin-right: calc(-1 * var(--sidebar-width));
+  box-shadow: 2px 0 100px var(--sidebar-shadow-color);
+  transition-delay: var(--sidebar-transition-delay);
+}
+
+/* When sidebar is move to right */
+
+#sidebar-box[style*="-moz-box-ordinal-group: 3"] #sidebar-header {
+  transform: translate(
+      calc(
+        -1 * (var(--sidebar-width) + var(--sidebar-button-distance)) + var(
+            --sidebar-width
+          ) - 20px
+      ),
+      50vh
+    )
+    rotate(90deg);
+}
+
+#sidebar-box[style*="-moz-box-ordinal-group: 3"] {
+  margin-right: calc(-1 * var(--sidebar-width));
+  margin-left: 0px;
+}
+
+#sidebar-box[style*="-moz-box-ordinal-group: 3"]:hover {
+  margin-right: 0px;
+  margin-left: calc(-1 * var(--sidebar-width));
+  box-shadow: 2px 0 200px var(--sidebar-shadow-color);
+  transition-delay: var(--sidebar-transition-delay);
+}
+
+#sidebar-box[style*="-moz-box-ordinal-group: 3"] #sidebar-switcher-target,
+#sidebar-box[style*="-moz-box-ordinal-group: 3"] #sidebar-close {
+  margin-top: var(--sidebar-button-distance) !important;
+}
+
+/*fix responsive mode*/
+.browserContainer.responsive-mode .browserStack > .rdm-toolbar {
+  z-index: 0 !important;
+}

@@ -71,6 +71,16 @@ function M.apply_to_config(config)
       action = wezterm.action.ActivatePaneDirection 'Down',
     },
     {
+      key = "UpArrow",
+      mods = "SHIFT",
+      action = wezterm.action.ScrollByLine(-1),
+    },
+    {
+      key = "DownArrow",
+      mods = "SHIFT",
+      action = wezterm.action.ScrollByLine(1),
+    },
+    {
       key = "End",
       mods = "SHIFT",
       action = wezterm.action.ScrollToBottom,
@@ -88,6 +98,12 @@ function M.apply_to_config(config)
       key = "c",
       mods = "CTRL|SUPER",
       action = wezterm.action.CloseCurrentTab { confirm = true },
+    },
+
+    {
+      key = "x",
+      mods = "LEADER",
+      action = wezterm.action.ActivateCopyMode,
     },
   }
 

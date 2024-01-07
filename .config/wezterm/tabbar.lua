@@ -28,7 +28,12 @@ local function tab_title(tab_info)
   end
   -- Otherwise, use the title from the active pane
   -- in that tab
-  return tab_info.active_pane.title
+  -- If it is a ssh session remove user part
+  title = tab_info.active_pane.title
+  title = title:gsub("^[^@]+@", "")
+  print(title)
+
+  return title
 end
 
 local function has_unseen_output(tab)
@@ -44,6 +49,65 @@ local function has_unseen_output(tab)
   return has_unseen
 end
 
+local function merge_colors(t1, t2)
+  local colors = t1
+
+  for k, v in pairs(t2) do colors[k] = v end
+
+  return colors
+end
+
+local function tab_color(config)
+  local c = config.colors.tab_bar
+
+  local tabcol = {
+    inactive = {
+      sep1_background = c.inactive_tab.bg_color,
+      sep1_foreground = c.background,
+      sep2_background = c.background,
+      sep2_foreground = c.inactive_tab.bg_color,
+
+      background = c.inactive_tab.bg_color,
+      foreground = c.inactive_tab.fg_color,
+
+      bar = {
+        background = c.background,
+      },
+    },
+    active = {
+      background = c.active_tab.bg_color,
+      foreground = c.active_tab.fg_color,
+      sep1_background = c.active_tab.bg_color,
+      sep1_foreground = c.background,
+      sep2_background = c.background,
+      sep2_foreground = c.active_tab.bg_color,
+
+      bar = {
+        background = c.background,
+      },
+    },
+    hover = {
+      background = c.inactive_tab_hover.bg_color,
+      foreground = c.inactive_tab_hover.fg_color,
+    },
+    status = {
+      left = {
+        sep1_background = c.active_tab.bg_color,
+        sep1_foreground = c.background,
+        sep2_background = c.active_tab.bg_color,
+        sep2_foreground = c.background,
+      },
+      right = {
+        sep1_background = c.background,
+        sep1_foreground = c.active_tab.bg_color,
+        sep2_background = c.active_tab.bg_color,
+        sep2_foreground = c.background,
+      },
+    },
+  }
+  return tabcol
+end
+
 function M.apply_to_config(config)
   config.hide_tab_bar_if_only_one_tab = false
   config.show_new_tab_button_in_tab_bar = false
@@ -53,57 +117,76 @@ function M.apply_to_config(config)
   config.show_tab_index_in_tab_bar = false
 
   wezterm.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-    local c = config.colors.tab_bar
-
-    local sep1_background = c.inactive_tab.bg_color
-    local sep1_foreground = c.background
-    local sep2_background = c.background
-    local sep2_foreground = c.inactive_tab.bg_color
-
-    local background = c.inactive_tab.bg_color
-    local foreground = c.inactive_tab.fg_color
-
-    -- local is_first = tab.tab_id == tabs[1].tab_id
-    -- local is_last = tab.tab_id == tabs[#tabs].tab_id
-
-    if tab.is_active then
-      background = c.active_tab.bg_color
-      foreground = c.active_tab.fg_color
-      sep1_background = c.active_tab.bg_color
-      sep1_foreground = c.background
-      sep2_background = c.background
-      sep2_foreground = c.active_tab.bg_color
-    elseif hover then
-      background = c.inactive_tab_hover.bg_color
-      foreground = c.inactive_tab_hover.fg_color
-      -- sep1_background = c.inactive_tab_bar.bg_color
-      -- sep1_foreground = c.background
-      -- sep2_background = c.background
-      -- sep2_foreground = c.inactive_tab_bar.bg_color
-    end
-
-    if not tab.is_active then
-      if has_unseen_output(tab) then
-        foreground = "#FFAA00"
-      end
-    end
-
+    local tabcols = tab_color(config)
     local tab_pos = indexOfTab(tabs, tab)
     local title = " " .. tab_pos .. ": " .. tab_title(tab)
 
     title = wezterm.truncate_right(title, max_width - 2)
 
+    local tabcol = merge_colors(tabcols.inactive, {})
+
+    if tab.is_active then
+      tabcol = merge_colors(tabcols.inactive, tabcols.active)
+    elseif hover then
+      tabcol = merge_colors(tabcols.inactive, tabcols.hover)
+    end
+
+    if not tab.is_active then
+      if has_unseen_output(tab) then
+        tabcol.foreground = "#FFAA00"
+      end
+    end
+
     return {
-      { Background = { Color = sep1_background } },
-      { Foreground = { Color = sep1_foreground } },
+      { Background = { Color = tabcol.sep1_background } },
+      { Foreground = { Color = tabcol.sep1_foreground } },
       { Text = SOLID_RIGHT_CIRCLE },
-      { Background = { Color = background } },
-      { Foreground = { Color = foreground } },
+      { Background = { Color = tabcol.background } },
+      { Foreground = { Color = tabcol.foreground } },
       { Text = title },
-      { Background = { Color = sep2_background } },
-      { Foreground = { Color = sep2_foreground } },
+      { Background = { Color = tabcol.sep2_background } },
+      { Foreground = { Color = tabcol.sep2_foreground } },
       { Text = SOLID_RIGHT_CIRCLE },
     }
+  end)
+
+  -- Show which key t able is active in the status area
+  wezterm.on('update-status', function(window, pane)
+    local tabcols = tab_color(config)
+
+    local name = window:active_key_table()
+    if name then
+      name = ' ' .. name .. ' '
+    else
+      name = ' default '
+    end
+
+    local tabcol = merge_colors(tabcols.active, tabcols.status.left)
+
+    local left_status = {
+      { Background = { Color = tabcol.background } },
+      { Foreground = { Color = tabcol.foreground } },
+      { Text = " " .. window:active_workspace() },
+      { Background = { Color = tabcol.sep2_foreground } },
+      { Foreground = { Color = tabcol.sep2_background } },
+      { Text = SOLID_RIGHT_CIRCLE },
+    }
+    window:set_left_status(wezterm.format(left_status))
+
+    tabcol = merge_colors(tabcols.active, tabcols.status.right)
+
+    local right_status = {
+      { Background = { Color = tabcol.sep1_background } },
+      { Foreground = { Color = tabcol.sep1_foreground } },
+      { Text = SOLID_LEFT_CIRCLE },
+      { Background = { Color = tabcol.background } },
+      { Foreground = { Color = tabcol.foreground } },
+      { Text = name },
+      -- { Background = { Color = tabcol.sep2_background } },
+      -- { Foreground = { Color = tabcol.sep2_foreground } },
+      -- { Text = SOLID_LEFT_CIRCLE },
+    }
+    window:set_right_status(wezterm.format(right_status))
   end)
 end
 

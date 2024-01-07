@@ -1,0 +1,207 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 40,
+  "modules-left": [
+    "hyprland/workspaces"
+  ],
+  "modules-center": [
+    "custom/weather",
+    "clock"
+  ],
+  "modules-right": [
+    "group/hw",
+    "group/net",
+    "group/sound",
+    "idle_inhibitor",
+    "backlight",
+    "battery",
+    "tray"
+  ],
+  "group/sound": {
+    "orientation": "horizontal",
+    "modules": [
+      "pulseaudio#mic",
+      "pulseaudio"
+    ]
+  },
+  "group/net": {
+    "orientation": "horizontal",
+    "modules": [
+      "network",
+      "bluetooth"
+    ]
+  },
+  "temperature": {
+    "thermal-zone": 8,
+    "format": "{temperatureC}°C ",
+    "critical-threshold": 50
+  },
+  "cpu": {
+    "interval": 10,
+    "format": "{}% ",
+    "max-length": 10
+  },
+  "memory": {
+    "interval": 30,
+    "format": "{}% ",
+    "max-length": 10
+  },
+  "disk": {
+    "interval": 30,
+    "format": "{percentage_used}% ",
+    "path": "/"
+  },
+  "group/hw": {
+    "orientation": "horizontal",
+    "modules": [
+      "disk",
+      "memory",
+      "cpu",
+      "temperature"
+    ]
+  },
+  "clock": {
+    "format": "{:%A, %b %d  %H:%M}",
+    "tooltip": true,
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "year",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "on-click-right": "mode",
+      "format": {
+        "months": "<span color='#ffead3'><b>{}</b></span>",
+        "days": "<span color='#ecc6d9'><b>{}</b></span>",
+        "weeks": "<span color='#c0caf5'><b>W{:%V}</b></span>",
+        "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
+      }
+    }
+  },
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "on-click": "activate",
+    "all-outputs": true,
+    "persistent-workspaces": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": [],
+      "6": [],
+      "7": [],
+      "8": []
+    },
+    "format-icons": {
+      "1": "",
+      "2": "󰖷",
+      "3": "󰅬",
+      "4": "",
+      "5": "",
+      "6": "󰍩",
+      "7": "󰅬",
+      "8": ""
+    }
+  },
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon}  {capacity}%",
+    "format-charging": "{capacity}% 󰃨",
+    "format-plugged": "{capacity}% ",
+    "format-alt": "{icon} {time}",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "network": {
+    "format-wifi": "  {essid} ({signalStrength}%)",
+    "format-ethernet": "󰌗 {ipaddr}",
+    "format-disconnected": "󰌙",
+    "format-linked": "󰌹",
+    "tooltip-format": "{ipaddr}",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)   \n{ipaddr} | {frequency} MHz{icon} \n {bandwidthDownBits}  {bandwidthUpBits} ",
+    "tooltip-format-ethernet": "{ifname} 󰌗 \n{ipaddr} | {frequency} MHz{icon} \n󰌗 {bandwidthDownBits}  {bandwidthUpBits} ",
+    "tooltip-format-disconnected": "Not Connected to any type of Network",
+    "on-click": "pgrep -x rofi &>/dev/null && notify-send rofi || networkmanager_dmenu"
+  },
+  "tray": {
+    "icon-size": 17,
+    "spacing": 5
+  },
+  "backlight": {
+    "format": "{icon} {percent}%",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "pulseaudio#mic": {
+    "format": "{format_source}",
+    "format-source": "{volume}% ",
+    "format-source-muted": "",
+    "on-click": "pactl set-source-mute 0 toggle",
+    "on-scroll-down": "pactl set-source-volume 0 -1%",
+    "on-scroll-up": "pactl set-source-volume 0 +1%"
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "󰸈",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": [
+        "",
+        "",
+        ""
+      ]
+    },
+    "on-click": "pamixer --toggle-mute"
+  },
+  "custom/weather": {
+    "format": "{} °",
+    "tooltip": true,
+    "interval": 3600,
+    "exec": "wttrbar",
+    "return-type": "json"
+  },
+  "bluetooth": {
+    "format": " {status}",
+    "format-on": "",
+    "format-off": "󰂲",
+    "format-connected": " {device_alias}",
+    "format-connected-battery": " {device_alias} {device_battery_percentage}%",
+    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+    "on-click": "~/.config/waybar/scripts/bluetooth"
+  },
+  "idle_inhibitor": {
+    "format": "{icon} ",
+    "format-icons": {
+      "activated": "",
+      "deactivated": ""
+    }
+  }
+}

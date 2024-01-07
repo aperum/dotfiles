@@ -17,4 +17,6 @@ elseif virt == "vmware" then
 end
 
 awful.spawn("picom -b")
+-- awful.spawn("xss-lock -n ~/.config/awesome/dim-screen.sh -- i3lock -n")
+awful.spawn("xss-lock -n ~/.config/awesome/dim-screen.sh --transfer-sleep-lock -- i3lock --nofork -c 000000")
 -- awful.spawn("remmina -i")

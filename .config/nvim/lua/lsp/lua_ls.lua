@@ -23,6 +23,9 @@ local settings = {
         "keygrabber",
         "mouse",
         "screen",
+
+        -- Wezterm
+        "wezterm",
       },
     },
     workspace = {

@@ -1,0 +1,36 @@
+#!/bin/zsh
+#
+# .aliases - Set whatever shell aliases you want.
+#
+
+alias cat="bat"
+alias cd..='cd ..'
+alias confcat='egrep -v "#|^$"'
+alias cp='nocorrect cp'       # no spelling correction on cp
+alias grep='grep --color=auto'
+alias less='less -R'
+alias mkdir='nocorrect mkdir' # no spelling correction on mkdir
+alias mv='nocorrect mv'       # no spelling correction on mv
+alias ncgrep="grep -Ev '^#|^$'"
+alias ssh='TERM=xterm-256color ssh'
+alias nscp='scp -o StrictHostKeyChecking=no'
+alias nssh='TERM=xterm-256color ssh -o StrictHostKeyChecking=no'
+alias pstree='pstree -g 3'
+alias sdig='dig +short'
+alias sgrep='find . -path "*/.svn" -prune -o -print0 | xargs -0 grep'
+alias tma='tmux attach-session'
+alias tml='tmux list-session'
+alias uipssh='pssh -i -t 1600 -l root -o output -e output -O "StrictHostKeyChecking=no"'
+alias wetter='curl http://wttr\.in/"Karlsruhe"'
+alias pwgen='pwgen -s1 16'
+alias gpa='gopass adesso'
+alias gss='git status'
+alias ga='git add'
+alias v='nvim'
+# alias ls="ls --color=auto"
+alias ls="lsd"
+alias l="ls"
+alias ll="ls -al"
+alias pacrm="pacman -Rns"
+alias pacadd="pacman -S"
+alias pacfind="pacman -Ss"
